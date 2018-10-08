@@ -7,9 +7,9 @@
 //
 
 #include <iostream>
+#include "parametrsStorage/parametrsStorage.hpp"
 
 int main(int argc, const char * argv[]) {
-    // insert code here...
-    std::cout << "Hello, World!\n";
+    parametrsStorage ps(argc, argv);
     return 0;
 }
