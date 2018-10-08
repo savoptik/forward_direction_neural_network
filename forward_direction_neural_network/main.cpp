@@ -11,5 +11,8 @@
 
 int main(int argc, const char * argv[]) {
     parametrsStorage ps(argc, argv);
+    if (ps.operatingMode() == 0) {
+        return 0;
+    }
     return 0;
 }
