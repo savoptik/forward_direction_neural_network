@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		FEDDB6A6216AC33E00D86851 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FEDDB6A5216AC33E00D86851 /* main.cpp */; };
+		FEDF6CDA216B28740083CA31 /* parametrsStorage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FEDF6CD8216B28740083CA31 /* parametrsStorage.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,6 +26,9 @@
 /* Begin PBXFileReference section */
 		FEDDB6A2216AC33E00D86851 /* forward_direction_neural_network */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = forward_direction_neural_network; sourceTree = BUILT_PRODUCTS_DIR; };
 		FEDDB6A5216AC33E00D86851 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		FEDF6CD8216B28740083CA31 /* parametrsStorage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = parametrsStorage.cpp; sourceTree = "<group>"; };
+		FEDF6CD9216B28740083CA31 /* parametrsStorage.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = parametrsStorage.hpp; sourceTree = "<group>"; };
+		FEDF6CDF216BC7D60083CA31 /* help.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = help.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,8 +62,35 @@
 			isa = PBXGroup;
 			children = (
 				FEDDB6A5216AC33E00D86851 /* main.cpp */,
+				FEDF6CDC216BC6FD0083CA31 /* resursis */,
+				FEDF6CD4216B28160083CA31 /* parametrsStorage */,
 			);
 			path = forward_direction_neural_network;
+			sourceTree = "<group>";
+		};
+		FEDF6CD4216B28160083CA31 /* parametrsStorage */ = {
+			isa = PBXGroup;
+			children = (
+				FEDF6CD8216B28740083CA31 /* parametrsStorage.cpp */,
+				FEDF6CD9216B28740083CA31 /* parametrsStorage.hpp */,
+			);
+			path = parametrsStorage;
+			sourceTree = "<group>";
+		};
+		FEDF6CDC216BC6FD0083CA31 /* resursis */ = {
+			isa = PBXGroup;
+			children = (
+				FEDF6CDE216BC7860083CA31 /* help */,
+			);
+			path = resursis;
+			sourceTree = "<group>";
+		};
+		FEDF6CDE216BC7860083CA31 /* help */ = {
+			isa = PBXGroup;
+			children = (
+				FEDF6CDF216BC7D60083CA31 /* help.txt */,
+			);
+			path = help;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -119,6 +150,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FEDDB6A6216AC33E00D86851 /* main.cpp in Sources */,
+				FEDF6CDA216B28740083CA31 /* parametrsStorage.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
