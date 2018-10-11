@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		84CEF870216F57280044E3F0 /* neuron.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84CEF86E216F57280044E3F0 /* neuron.cpp */; };
 		FEDDB6A6216AC33E00D86851 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FEDDB6A5216AC33E00D86851 /* main.cpp */; };
 		FEDF6CDA216B28740083CA31 /* parametrsStorage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FEDF6CD8216B28740083CA31 /* parametrsStorage.cpp */; };
 /* End PBXBuildFile section */
@@ -24,6 +25,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		84CEF86E216F57280044E3F0 /* neuron.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = neuron.cpp; sourceTree = "<group>"; };
+		84CEF86F216F57280044E3F0 /* neuron.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = neuron.hpp; sourceTree = "<group>"; };
 		FEDDB6A2216AC33E00D86851 /* forward_direction_neural_network */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = forward_direction_neural_network; sourceTree = BUILT_PRODUCTS_DIR; };
 		FEDDB6A5216AC33E00D86851 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		FEDF6CD8216B28740083CA31 /* parametrsStorage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = parametrsStorage.cpp; sourceTree = "<group>"; };
@@ -42,6 +45,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		84CEF86C216F569E0044E3F0 /* network */ = {
+			isa = PBXGroup;
+			children = (
+				84CEF86D216F56E40044E3F0 /* neuron */,
+			);
+			path = network;
+			sourceTree = "<group>";
+		};
+		84CEF86D216F56E40044E3F0 /* neuron */ = {
+			isa = PBXGroup;
+			children = (
+				84CEF86E216F57280044E3F0 /* neuron.cpp */,
+				84CEF86F216F57280044E3F0 /* neuron.hpp */,
+			);
+			path = neuron;
+			sourceTree = "<group>";
+		};
 		FEDDB699216AC33E00D86851 = {
 			isa = PBXGroup;
 			children = (
@@ -62,6 +82,7 @@
 			isa = PBXGroup;
 			children = (
 				FEDDB6A5216AC33E00D86851 /* main.cpp */,
+				84CEF86C216F569E0044E3F0 /* network */,
 				FEDF6CDC216BC6FD0083CA31 /* resursis */,
 				FEDF6CD4216B28160083CA31 /* parametrsStorage */,
 			);
@@ -151,6 +172,7 @@
 			files = (
 				FEDDB6A6216AC33E00D86851 /* main.cpp in Sources */,
 				FEDF6CDA216B28740083CA31 /* parametrsStorage.cpp in Sources */,
+				84CEF870216F57280044E3F0 /* neuron.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
