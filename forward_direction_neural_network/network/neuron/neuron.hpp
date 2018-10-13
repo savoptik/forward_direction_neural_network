@@ -15,6 +15,7 @@
 class neuron {
 public:
     neuron() {}
+    neuron(std::vector<double>& inputSignalVector, const int acFunc);
     /**
      вектор весов
 
@@ -39,8 +40,10 @@ public:
      @return выходное значение
      */
     double getOutputValue();
+    std::vector<double>& getInputVector();
 private:
     std::vector<double> vectorOfWeights; // вектор весов
+    std::vector<double> inSignal;
     int activationFunction; // номер функции активации
     double localGradient; // локальный градиент
     double outputValue; // выходное значение
