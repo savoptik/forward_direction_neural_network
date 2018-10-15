@@ -15,7 +15,7 @@
 class neuron {
 public:
     neuron() {}
-    neuron(std::vector<double>& inputSignalVector, const int acFunc);
+    neuron(int size, const int acFunc, const double afa, const double afb);
     /**
      вектор весов
 
@@ -33,20 +33,60 @@ public:
 
      @return локальный градиент
      */
-    double getLocalGradient();
+    double& getLocalGradient();
     /**
      выходное значение
 
      @return выходное значение
      */
-    double getOutputValue();
+    double& getOutputValue();
+    /**
+     вектор входных сигналов
+
+     @return ссылку на вектор входных сигналов
+     */
     std::vector<double>& getInputVector();
+    /**
+     Расчёт выходного значений
+
+     @param signal вектор входного сигнала
+     */
+    void theCalculationOfTheOutputValue(std::vector<double>& signal);
+    /**
+     Расчёт локального градиента
+
+     @return ссылку на значение поля локального градиента
+     */
+    double& theCalculationOfTheLocalGradient();
+    /**
+     Расчёт компонента вектора ошибки
+
+     @param d компонент вектора отклика
+     @return ссылку на поле компонента вектора ошибки
+     */
+    double& theCalculationOfTheE(const double d);
+    /**
+     Доступ к полю компонента вектора ошибки
+
+     @return ссылку на компонент вектора ошибки
+     */
+    double& getE();
 private:
     std::vector<double> vectorOfWeights; // вектор весов
     std::vector<double> inSignal;
     int activationFunction; // номер функции активации
     double localGradient; // локальный градиент
     double outputValue; // выходное значение
+    double a, b; // параметры функции активации
+    double e; //компонент вектора ошибки
 };
+
+// функции активации и их производные
+double logistic(double x, double a = 1, double b = 1); // логистическая
+double Dlogistic(double y, double a = 1, double b = 1); // производная логистической функции
+double identiti(double y, double a = 1, double b = 0); // функция идентичности
+double Didentiti(double y, double a = 1, double b = 0); // производная функции идентичности
+double hyperbolicTangent(double x, double a = 1.7, double b = double(2/3)); // функция гиперболического тангенса
+double DhyperbolicTangent(double y, double a = 1.7, double b = double(2/3)); // производна функции гиперболического тангенса
 
 #endif /* neuron_hpp */
