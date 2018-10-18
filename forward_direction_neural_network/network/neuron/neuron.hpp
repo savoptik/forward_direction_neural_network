@@ -71,9 +71,18 @@ public:
      @return ссылку на компонент вектора ошибки
      */
     double& getE();
+    /**
+     Доступ к вектору изменений весов
+
+     @return ссылку на вектор изменений весов
+     */
+    std::vector<double>& getVectorOfChangesOfWeights();
+//    double& calculateTheLocalGradientForAHiddenLayer();
+    void weightChangeCalculation(const double learningRate);
 private:
     std::vector<double> vectorOfWeights; // вектор весов
-    std::vector<double> inSignal;
+    std::vector<double> inSignal; // сохранённый входной сигнал
+    std::vector<double> vectorOfChangesOfWeights; // вектор изменений весов
     int activationFunction; // номер функции активации
     double localGradient; // локальный градиент
     double outputValue; // выходное значение

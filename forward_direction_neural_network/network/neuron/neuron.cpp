@@ -34,6 +34,7 @@ neuron::neuron(int size, const int acFunc, const double afa, const double afb) {
     uniform_real_distribution<> urd(-0.8, 0.8);
     inSignal.resize(size);
     vectorOfWeights.resize(size);
+    vectorOfChangesOfWeights.resize(size);
     for (int i = 0; i < vectorOfWeights.size(); i++) {
         vectorOfWeights[i] = urd(gen);
     }
@@ -93,6 +94,20 @@ double &neuron::theCalculationOfTheLocalGradient() {
     }
     return localGradient;
 }
+
+std::vector<double> &neuron::getVectorOfChangesOfWeights() { 
+    return vectorOfChangesOfWeights;
+}
+
+void neuron::weightChangeCalculation(const double learningRate) {
+    for (int i = 0; i < vectorOfChangesOfWeights.size(); i++) {
+        vectorOfChangesOfWeights[i] = learningRate * localGradient * inSignal[i];
+    }
+}
+
+
+
+
 
 
 
