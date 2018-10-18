@@ -15,7 +15,7 @@
 class neuron {
 public:
     neuron() {}
-    neuron(int size, const int acFunc, const double afa, const double afb);
+    neuron(int size, const int acFunc, const double afa, const double afb = 0);
     /**
      вектор весов
 
@@ -77,7 +77,11 @@ public:
      @return ссылку на вектор изменений весов
      */
     std::vector<double>& getVectorOfChangesOfWeights();
-//    double& calculateTheLocalGradientForAHiddenLayer();
+    /**
+     Пересчёт вектора весов
+
+     @param learningRate Скорость обучения
+     */
     void weightChangeCalculation(const double learningRate);
 private:
     std::vector<double> vectorOfWeights; // вектор весов

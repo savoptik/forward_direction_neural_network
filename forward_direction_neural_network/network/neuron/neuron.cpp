@@ -29,15 +29,18 @@ std::vector<double> &neuron::getVectorOfWeights() {
 }
 
 neuron::neuron(int size, const int acFunc, const double afa, const double afb) {
-    activationFunction = acFunc;
-    mt19937_64 gen(static_cast<int>(time(0)));
-    uniform_real_distribution<> urd(-0.8, 0.8);
+    activationFunction = acFunc; // записываем функцию активации
+    mt19937_64 gen(static_cast<int>(time(0))); // генератор случайных чисел
+    uniform_real_distribution<> urd(-0.8, 0.8); // задаём границы
+    // резервируем память под векторы
     inSignal.resize(size);
     vectorOfWeights.resize(size);
     vectorOfChangesOfWeights.resize(size);
+    // заполняем вектор весов случайными числами
     for (int i = 0; i < vectorOfWeights.size(); i++) {
         vectorOfWeights[i] = urd(gen);
     }
+    // сохраняем параметры функции активации
     a = afa;
     b = afb;
 }
@@ -47,13 +50,16 @@ std::vector<double> &neuron::getInputVector() {
 }
 
 void neuron::theCalculationOfTheOutputValue(std::vector<double> &signal) {
-    inSignal.resize(signal.size());
+    inSignal.resize(signal.size()); // резервируем память под массив входных сигналов
+    // переписываем вектор входных сигналов
     for (int i = 0; i < inSignal.size(); i++) {
         inSignal[i] = signal[i];
     }
+    // расчитываем скалярное произведение
     for (int i = 0; i < inSignal.size(); i++) {
         outputValue += inSignal[i] * vectorOfWeights[i];
     }
+    // применяем соответствующую функцию активации
     switch (activationFunction) {
         case 1:
             outputValue = logistic(outputValue, a);
@@ -78,10 +84,11 @@ double& neuron::theCalculationOfTheE(const double d) {
     return e;
 }
 
-double &neuron::theCalculationOfTheLocalGradient() { 
+double &neuron::theCalculationOfTheLocalGradient() {
+    // выбираем соответствующую производную функции активации
     switch (activationFunction) {
         case 1:
-            localGradient = e = Dlogistic(outputValue, a);
+            localGradient = e * Dlogistic(outputValue, a);
             break;
             
             case 2:
@@ -104,13 +111,6 @@ void neuron::weightChangeCalculation(const double learningRate) {
         vectorOfChangesOfWeights[i] = learningRate * localGradient * inSignal[i];
     }
 }
-
-
-
-
-
-
-
 
 double logistic(double x, double a, double b) {
     return b * (1 / 1 + exp(-a * x));
