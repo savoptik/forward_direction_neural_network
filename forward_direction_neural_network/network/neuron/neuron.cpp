@@ -135,3 +135,4 @@ double hyperbolicTangent(double x, double a, double b) {
 double DhyperbolicTangent(double y, double a, double b) {
     return double(b / a) * ((a - y) * (a + y));
 }
+
