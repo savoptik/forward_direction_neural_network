@@ -15,7 +15,7 @@
 class example {
 public:
     example() {} // конструктор бес параметров
-    example(const int number); // конструктор, принимающий количество нейронов, которые нужно создать для этого примера, и создающий это количество неййронов.
+    example(const int number, const int size, const int af, const int a, const int b = 0); // конструктор, принимающий количество нейронов, которые нужно создать для этого примера, и создающий это количество неййронов.
     /**
      Доступ к вектору нейронов
 
@@ -50,7 +50,7 @@ private:
     std::vector<neuron> neurons; // набор нейронов
     std::vector<double *> outputValues; // вектор указателй на выходные значения
     std::vector<double *> localGradients; // вектор указателей на локальные градиенты
-    std::vector<double *> es; // вектор указателей на компоненты вектора ошибок.
+    std::vector<double *> errors; // вектор указателей на компоненты вектора ошибок.
     double error; // Ошибка
 };
 
