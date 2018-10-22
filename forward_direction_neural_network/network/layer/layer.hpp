@@ -65,6 +65,7 @@ public:
      @param learningRate скорость обучения
      */
     void countTheWeightOnTheCurrentLayer(const double learningRate);
+    void toCalculateTheError();
 private:
     std::vector<neuron> neurons; // набор нейронов
     std::vector<double *> outputValues; // вектор указателй на выходные значения

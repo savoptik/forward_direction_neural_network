@@ -7,6 +7,7 @@
 //
 
 #include "layer.hpp"
+#include <cmath>
 using namespace std;
 
 double layer::getError() { 
@@ -86,3 +87,10 @@ void layer::calculateLocalGradientsForTheCurrentLayer(layer &previousLayer) {
     }
 }
 
+void layer::toCalculateTheError() {
+    double sum = 0;
+    for (int i = 0; i < errors.size(); i++) {
+        sum += pow(*errors[i], 2);
+    }
+    error = sum / 2;
+}
