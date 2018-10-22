@@ -49,11 +49,11 @@ std::vector<double> &neuron::getInputVector() {
     return inSignal;
 }
 
-void neuron::theCalculationOfTheOutputValue(std::vector<double> &signal) {
+void neuron::theCalculationOfTheOutputValue(std::vector<double*> &signal) {
     inSignal.resize(signal.size()); // резервируем память под массив входных сигналов
     // переписываем вектор входных сигналов
     for (int i = 0; i < inSignal.size(); i++) {
-        inSignal[i] = signal[i];
+        inSignal[i] = *signal[i];
     }
     // расчитываем скалярное произведение
     for (int i = 0; i < inSignal.size(); i++) {

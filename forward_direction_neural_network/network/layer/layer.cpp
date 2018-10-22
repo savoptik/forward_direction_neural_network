@@ -9,27 +9,27 @@
 #include "layer.hpp"
 using namespace std;
 
-double example::getError() { 
+double layer::getError() { 
     return error;
 }
 
-std::vector<double *> &example::AccessToTheErrorVector() { 
+std::vector<double *> &layer::AccessToTheErrorVector() { 
     return errors;
 }
 
-std::vector<double *> &example::accessToTheLocalGradientVector() { 
+std::vector<double *> &layer::accessToTheLocalGradientVector() { 
     return localGradients;
 }
 
-std::vector<double *> &example::AccessToTheOutputVector() { 
+std::vector<double *> &layer::AccessToTheOutputVector() { 
     return outputValues;
 }
 
-std::vector<neuron> &example::accessToTheNeuronVector() { 
+std::vector<neuron> &layer::accessToTheNeuronVector() { 
     return neurons;
 }
 
-example::example(const int number, const int size, const int af, const int a, const int b) {
+layer::layer(const int number, const int size, const int af, const double a, const double b) {
     for (int i = 0; i < number; i++) {
         neurons.push_back(neuron(size, af, a, b));
     }
@@ -41,4 +41,48 @@ example::example(const int number, const int size, const int af, const int a, co
         localGradients[i] = &neurons[i].getLocalGradient();
         errors[i] = &neurons[i].getE();
     }
+    ap = a;
+    bp = b;
 }
+
+void layer::toCalculateTheOutputValuesForTheCurrentLayer(layer &previousLayer) {
+    for (int i = 0; i < neurons.size(); i++) {
+        neurons[i].theCalculationOfTheOutputValue(previousLayer.AccessToTheOutputVector());
+    }
+}
+
+void layer::calculateLocalGradientsForTheCurrentLayer(const double d) { 
+    for (int i = 0; i < neurons.size(); i++) {
+        neurons[i].theCalculationOfTheE(d);
+        neurons[i].theCalculationOfTheLocalGradient();
+    }
+}
+
+void layer::countTheWeightOnTheCurrentLayer(const double learningRate) { 
+    for (int i = 0; i < neurons.size(); i++) {
+        neurons[i].weightChangeCalculation(learningRate);
+    }
+}
+
+void layer::calculateLocalGradientsForTheCurrentLayer(layer &previousLayer) { 
+    for (int i = 0; i < localGradients.size(); i++) {
+        double sum = 0;
+        for (int k = 0; k < previousLayer.accessToTheLocalGradientVector().size(); k++) {
+            sum += *previousLayer.accessToTheLocalGradientVector()[k] * neurons[i].getVectorOfWeights()[k];
+        }
+        switch (neurons[0].getActivationFunction()) {
+            case 1:
+                *localGradients[i] = Dlogistic(*outputValues[i], ap) * sum;
+                break;
+                
+                case 2:
+                *localGradients[i] = Didentiti(*outputValues[i], ap, bp) * sum;
+                break;
+                
+                case 3:
+                *localGradients[i] = DhyperbolicTangent(*outputValues[i]) * sum;
+                break;
+        }
+    }
+}
+

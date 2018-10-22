@@ -12,10 +12,10 @@
 #include <stdio.h>
 #include "../neuron/neuron.hpp"
 
-class example {
+class layer {
 public:
-    example() {} // конструктор бес параметров
-    example(const int number, const int size, const int af, const int a, const int b = 0); // конструктор, принимающий количество нейронов, которые нужно создать для этого примера, и создающий это количество неййронов.
+    layer() {} // конструктор бес параметров
+    layer(const int number, const int size, const int af, const double a, const double b = 0); // конструктор, принимающий количество нейронов, которые нужно создать, и создающий это количество неййронов.
     /**
      Доступ к вектору нейронов
 
@@ -46,12 +46,32 @@ public:
      @return ошибку
      */
     double getError();
+    /**
+     Запускает процесс вычисления выходного значения
+
+     @param previousLayer ссылку на объект предыдущего слоя
+     */
+    void toCalculateTheOutputValuesForTheCurrentLayer(layer& previousLayer);
+    /**
+     Метод запускает расчёт компонентов вектора ошибки
+
+     @param d компонент вектора отклика
+     */
+    void calculateLocalGradientsForTheCurrentLayer(const double d);
+    void calculateLocalGradientsForTheCurrentLayer(layer& previousLayer);
+    /**
+     метод запускает пересчёт весов
+
+     @param learningRate скорость обучения
+     */
+    void countTheWeightOnTheCurrentLayer(const double learningRate);
 private:
     std::vector<neuron> neurons; // набор нейронов
     std::vector<double *> outputValues; // вектор указателй на выходные значения
     std::vector<double *> localGradients; // вектор указателей на локальные градиенты
     std::vector<double *> errors; // вектор указателей на компоненты вектора ошибок.
     double error; // Ошибка
+    double ap, bp;
 };
 
 #endif /* layer_hpp */

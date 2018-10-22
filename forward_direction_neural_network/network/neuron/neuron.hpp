@@ -51,7 +51,7 @@ public:
 
      @param signal вектор входного сигнала
      */
-    void theCalculationOfTheOutputValue(std::vector<double>& signal);
+    void theCalculationOfTheOutputValue(std::vector<double*>& signal);
     /**
      Расчёт локального градиента
 
