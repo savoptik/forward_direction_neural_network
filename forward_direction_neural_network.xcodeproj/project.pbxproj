@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		84CEF870216F57280044E3F0 /* neuron.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84CEF86E216F57280044E3F0 /* neuron.cpp */; };
 		FE271AB92178E75100FE4D00 /* layer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FE271AB72178E75100FE4D00 /* layer.cpp */; };
+		FE8573CD217DB29D0025D65D /* network.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FE8573CB217DB29D0025D65D /* network.cpp */; };
 		FEDDB6A6216AC33E00D86851 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FEDDB6A5216AC33E00D86851 /* main.cpp */; };
 		FEDF6CDA216B28740083CA31 /* parametrsStorage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FEDF6CD8216B28740083CA31 /* parametrsStorage.cpp */; };
 /* End PBXBuildFile section */
@@ -30,6 +31,8 @@
 		84CEF86F216F57280044E3F0 /* neuron.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = neuron.hpp; sourceTree = "<group>"; };
 		FE271AB72178E75100FE4D00 /* layer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = layer.cpp; sourceTree = "<group>"; };
 		FE271AB82178E75100FE4D00 /* layer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = layer.hpp; sourceTree = "<group>"; };
+		FE8573CB217DB29D0025D65D /* network.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = network.cpp; sourceTree = "<group>"; };
+		FE8573CC217DB29D0025D65D /* network.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = network.hpp; sourceTree = "<group>"; };
 		FEDDB6A2216AC33E00D86851 /* forward_direction_neural_network */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = forward_direction_neural_network; sourceTree = BUILT_PRODUCTS_DIR; };
 		FEDDB6A5216AC33E00D86851 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		FEDF6CD8216B28740083CA31 /* parametrsStorage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = parametrsStorage.cpp; sourceTree = "<group>"; };
@@ -53,6 +56,8 @@
 			children = (
 				FE271AB62178E71100FE4D00 /* layer */,
 				84CEF86D216F56E40044E3F0 /* neuron */,
+				FE8573CB217DB29D0025D65D /* network.cpp */,
+				FE8573CC217DB29D0025D65D /* network.hpp */,
 			);
 			path = network;
 			sourceTree = "<group>";
@@ -186,6 +191,7 @@
 				FEDDB6A6216AC33E00D86851 /* main.cpp in Sources */,
 				FEDF6CDA216B28740083CA31 /* parametrsStorage.cpp in Sources */,
 				84CEF870216F57280044E3F0 /* neuron.cpp in Sources */,
+				FE8573CD217DB29D0025D65D /* network.cpp in Sources */,
 				FE271AB92178E75100FE4D00 /* layer.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
