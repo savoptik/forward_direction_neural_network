@@ -26,48 +26,45 @@ network::network(std::vector<int> &sizes, const int num, const int af, const dou
 }
 
 void network::exportNetwork(const std::string folderPath) { 
-    fstream f;
-    f.open(folderPath+"network", ios::out);
-    for (int i  = 0; i < layers.size(); i++) {
-        f << layers[i].accessToTheNeuronVector().size();
-        f << layers[i].accessToTheNeuronVector()[0].getVectorOfWeights().size();
+    fstream f; // создаём поток
+    f.open(folderPath+"network", ios::out); // открываем файл
+    for (int i  = 0; i < layers.size(); i++) { // едем по слоям
+        f << layers[i].accessToTheNeuronVector().size(); // записываем в начало строки количество нейронов на слое
+        f << layers[i].accessToTheNeuronVector()[0].getVectorOfWeights().size(); // записываем размер вектора весов
         for (int j = 0; j < layers[i].accessToTheNeuronVector().size(); j++) {
             for (int k = 0; k < layers[i].accessToTheNeuronVector()[j].getVectorOfWeights().size(); k++) {
-                f << layers[i].accessToTheNeuronVector()[j].getVectorOfWeights()[k];
+                f << layers[i].accessToTheNeuronVector()[j].getVectorOfWeights()[k]; // записываем значения
             }
         }
-        f << endl;
+        f << endl; // добавляем переход на новую строку
     }
-    f.close();
+    f.close(); // закрываем файл
 }
 
 network::network(const std::string filePath) { 
-    vector<vector<double>> vectorOfMatrixOfWeights;
-    vector<vector<int>> sizeis;
-    ifstream f;
-    f.open(filePath);
-    while (f.good()) {
+    vector<vector<double>> vectorOfMatrixOfWeights; // вектор для записи линеризованных матриц весов
+    vector<vector<int>> sizeis; // вектор для записи размеров
+    ifstream f; // готовим поток
+    f.open(filePath); // открываем файл
+    while (f.good()) { // пока не дойдём до конца файла
         vector<int> size(2);
         vector<double> values;
-         f >> size[0];
+         f >> size[0]; // читаем размер
         f >> size[1];
-        values.resize(size[0] * size[1]);
-        sizeis.push_back(size);
-        for (int i = 0; i << size[0] * size[1]; i++) {
-            double t;
-            f >> t;
-            values[i] = t;
+        values.resize(size[0] * size[1]); // резервируем память
+        sizeis.push_back(size); // сохраняем размеры
+        for (int i = 0; i << values.size(); i++) {
+            f >> values[i];
         }
-        vectorOfMatrixOfWeights.push_back(values);
+        vectorOfMatrixOfWeights.push_back(values); // затягиваем матрицу
     }
-    f.close();
-    layers.resize(vectorOfMatrixOfWeights.size());
-    for (int i = 0; i < layers.size(); i++) {
-        for (int j = 0; j < vectorOfMatrixOfWeights[i].size(); j+=sizeis[i][1]) {
-            vector<double> part(vectorOfMatrixOfWeights[i].begin() + j, vectorOfMatrixOfWeights[i].begin() + j + sizeis[i][1]);
-            layers[i].accessToTheNeuronVector().push_back(neuron(part));
+    f.close(); // закрываем файл
+    layers.resize(vectorOfMatrixOfWeights.size()); // резервируем память для слоёв
+    for (int i = 0; i < layers.size(); i++) { // едем по слоям
+        for (int j = 0; j < vectorOfMatrixOfWeights[i].size(); j+=sizeis[i][1]) { // едем по вектору матрицы весов
+            vector<double> part(vectorOfMatrixOfWeights[i].begin() + j, vectorOfMatrixOfWeights[i].begin() + j + sizeis[i][1]); // получаем часть вектора
+            layers[i].accessToTheNeuronVector().push_back(neuron(part)); // создаём нейрон нужного нам размера
         }
-        layers[i].toRebuildThePointers();
+        layers[i].toRebuildThePointers(); // пересобираем указатели у слоя
     }
 }
-
