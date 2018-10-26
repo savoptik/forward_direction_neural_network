@@ -34,9 +34,9 @@ layer::layer(const int number, const int size, const int af, const double a, con
     for (int i = 0; i < number; i++) {
         neurons.push_back(neuron(size, af, a, b));
     }
+    errors.resize(neurons.size());
     outputValues.resize(neurons.size());
     localGradients.resize(neurons.size());
-    
     for (int i = 0; i < outputValues.size(); i++) {
         outputValues[i] = &neurons[i].getOutputValue();
         localGradients[i] = &neurons[i].getLocalGradient();
@@ -94,3 +94,15 @@ void layer::toCalculateTheError() {
     }
     error = sum / 2;
 }
+
+void layer::toRebuildThePointers() { 
+    errors.resize(neurons.size());
+    outputValues.resize(neurons.size());
+    localGradients.resize(neurons.size());
+    for (int i = 0; i < outputValues.size(); i++) {
+        outputValues[i] = &neurons[i].getOutputValue();
+        localGradients[i] = &neurons[i].getLocalGradient();
+        errors[i] = &neurons[i].getE();
+    }
+}
+

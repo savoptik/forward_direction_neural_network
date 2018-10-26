@@ -112,6 +112,14 @@ void neuron::weightChangeCalculation(const double learningRate) {
     }
 }
 
+neuron::neuron(std::vector<double> &outvectorOfWeights) { 
+    vectorOfWeights.resize(outvectorOfWeights.size());
+    for (int i = 0; i < vectorOfWeights.size(); i++) {
+        vectorOfWeights[i] = outvectorOfWeights[i];
+    }
+}
+
+
 double logistic(double x, double a, double b) {
     return b * (1 / 1 + exp(-a * x));
 }

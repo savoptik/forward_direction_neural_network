@@ -15,7 +15,18 @@
 class network {
 public:
     network(std::vector<int>& sizes, const int num, const int af, const double ap, const double bp=0);
+    network(const std::string filePath);
+    /**
+     Доступ к вектору слоёв
+
+     @return ссылку на верктор слоёв
+     */
     std::vector<layer>& accessToLayers();
+    /**
+     Доступ к вектору ошибок
+
+     @return ссылку на вектор ошибок
+     */
     std::vector<double>& accessToErrors();
     /**
      метод экспортирует сеть в заданную папку

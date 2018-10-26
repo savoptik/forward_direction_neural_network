@@ -66,6 +66,10 @@ public:
      */
     void countTheWeightOnTheCurrentLayer(const double learningRate);
     void toCalculateTheError();
+    /**
+     Метод пересобирает указатели
+     */
+    void toRebuildThePointers();
 private:
     std::vector<neuron> neurons; // набор нейронов
     std::vector<double *> outputValues; // вектор указателй на выходные значения
