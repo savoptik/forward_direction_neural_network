@@ -58,7 +58,7 @@ public:
 
      @param d компонент вектора отклика
      */
-    void toCalculateTheComponentOfTheVectorOfErrors(const double d);
+    void toCalculateTheComponentOfTheVectorOfErrors(std::vector<double> &d);
     void calculateLocalGradientsForTheCurrentLayer(layer& previousLayer);
     void calculateTheOutputValuesByTheVectorOfTheInputSignals(std::vector<double> &inputSignals);
     /**

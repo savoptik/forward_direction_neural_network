@@ -34,8 +34,9 @@ public:
      @param folderPath путь к папке
      */
     void exportNetwork(const std::string folderPath);
-    void directDistribution(std::vector<double> &inputSignal);
+    void directPropagation(std::vector<double> &inputSignal);
 private:
+    void backPropagation(std::vector<double> &responseVector, const double lg);
     std::vector<layer> layers;
     std::vector<double> errors;
 };

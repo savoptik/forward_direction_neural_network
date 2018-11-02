@@ -86,10 +86,18 @@ network::network(const std::string filePath) {
     f.close(); // закрываем файл
 }
 
-void network::directDistribution(std::vector<double> &inputSignal) {
+void network::directPropagation(std::vector<double> &inputSignal) {
     layers[0].calculateTheOutputValuesByTheVectorOfTheInputSignals(inputSignal);
     for (int i = 1; i < layers.size(); i++) {
         layers[i].toCalculateTheOutputValuesForTheCurrentLayer(layers[i-1]);
     }
 }
 
+void network::backPropagation(std::vector<double> &responseVector, const double lg) {
+    layers[layers.size()-1].toCalculateTheComponentOfTheVectorOfErrors(responseVector);
+    layers[layers.size()-1].countTheWeightOnTheCurrentLayer(lg);
+    for (int i = layers.size()-2; i >= 0; i--) {
+        layers[i].calculateLocalGradientsForTheCurrentLayer(layers[i+1]);
+        layers[i].countTheWeightOnTheCurrentLayer(lg);
+    }
+}

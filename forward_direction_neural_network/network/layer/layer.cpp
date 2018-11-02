@@ -45,9 +45,9 @@ void layer::toCalculateTheOutputValuesForTheCurrentLayer(layer &previousLayer) {
     }
 }
 
-void layer::toCalculateTheComponentOfTheVectorOfErrors(const double d) { 
+void layer::toCalculateTheComponentOfTheVectorOfErrors(vector<double>& d) { 
     for (int i = 0; i < neurons.size(); i++) {
-        neurons[i].theCalculationOfTheE(d);
+        neurons[i].theCalculationOfTheE(d[i]);
         neurons[i].theCalculationOfTheLocalGradient();
     }
 }
