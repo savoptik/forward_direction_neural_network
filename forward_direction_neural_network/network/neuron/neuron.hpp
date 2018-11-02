@@ -15,7 +15,7 @@
 class neuron {
 public:
     neuron() {}
-    neuron(const int TheSizeOfTheVectorOfWeights);
+    neuron(const int TheSizeOfTheVectorOfWeights); // конструктор создаёт нейрон с пустым вектором весов заданного размера
     neuron(int size, const int acFunc, const double afa, const double afb = 0);
     /**
      вектор весов

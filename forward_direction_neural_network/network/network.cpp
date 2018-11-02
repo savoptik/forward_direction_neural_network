@@ -96,8 +96,30 @@ void network::directPropagation(std::vector<double> &inputSignal) {
 void network::backPropagation(std::vector<double> &responseVector, const double lg) {
     layers[layers.size()-1].toCalculateTheComponentOfTheVectorOfErrors(responseVector);
     layers[layers.size()-1].countTheWeightOnTheCurrentLayer(lg);
-    for (int i = layers.size()-2; i >= 0; i--) {
+    layers[layers.size()-1].toCalculateTheError();
+    errors.push_back(layers[layers.size()-1].getError());
+    for (int i = static_cast<int>(layers.size()) - 2; i >= 0; i--) {
         layers[i].calculateLocalGradientsForTheCurrentLayer(layers[i+1]);
         layers[i].countTheWeightOnTheCurrentLayer(lg);
     }
 }
+
+void network::train(std::vector<std::vector<double> > &TrainingSample, std::vector<std::vector<double>> &response, const double epsErrorse, const double lg, const int MaximumNumberOfEpochs) {
+    int era = 0;
+    double currentError = 0, backError = 10.0;
+    while ((era < MaximumNumberOfEpochs) && (currentError < backError)) {
+        backError = currentError;
+        currentError = 0;
+        for (int i = 0; i < TrainingSample.size(); i++) {
+            directPropagation(TrainingSample[i]);
+            backPropagation(response[i], lg);
+        }
+        for (int j = 0; j < errors.size(); j++) {
+            currentError += errors[j];
+        }
+                    currentError /= 2;
+        errors.clear();
+        era++;
+    }
+}
+

@@ -34,8 +34,29 @@ public:
      @param folderPath путь к папке
      */
     void exportNetwork(const std::string folderPath);
+    /**
+     Обучение
+
+     @param TrainingSample набор векторов входных сигналов
+     @param response вектор векторов откликов
+     @param epsErrorse порог ошибки
+     @param lg локальный градиент
+     @param MaximumNumberOfEpochs максимальное количество эпох обучения по умолчанию 100
+     */
+    void train(std::vector<std::vector<double> > &TrainingSample, std::vector<std::vector<double>> &response, const double epsErrorse, const double lg, const int MaximumNumberOfEpochs);
+    /**
+     Прямой проход
+
+     @param inputSignal входной сигнал
+     */
     void directPropagation(std::vector<double> &inputSignal);
 private:
+    /**
+     Обратный проход
+
+     @param responseVector вектор откликов
+     @param lg локальный градиент
+     */
     void backPropagation(std::vector<double> &responseVector, const double lg);
     std::vector<layer> layers;
     std::vector<double> errors;

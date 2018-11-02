@@ -112,3 +112,6 @@ void layer::calculateTheOutputValuesByTheVectorOfTheInputSignals(std::vector<dou
         neurons[i].theCalculationOfTheOutputValueFromInputSignal(inputSignals);
     }
 }
+
+
+

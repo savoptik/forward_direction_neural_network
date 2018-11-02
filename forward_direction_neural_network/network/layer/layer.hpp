@@ -15,7 +15,7 @@
 class layer {
 public:
     layer() {} // конструктор бес параметров
-    layer(const int NumberOfNeurons, const int TheSizeOfTheVectorOfWeights);
+    layer(const int NumberOfNeurons, const int TheSizeOfTheVectorOfWeights); // конструктор, создающий нейросеть с заданными размерами
     layer(const int number, const int size, const int af, const double a, const double b = 0); // конструктор, принимающий количество нейронов, которые нужно создать, и создающий это количество неййронов.
     /**
      Доступ к вектору нейронов
@@ -59,7 +59,17 @@ public:
      @param d компонент вектора отклика
      */
     void toCalculateTheComponentOfTheVectorOfErrors(std::vector<double> &d);
+    /**
+     разчёт локальных градиентов по данным с предыдущего слоя
+
+     @param previousLayer указатель на предыдущий слой
+     */
     void calculateLocalGradientsForTheCurrentLayer(layer& previousLayer);
+    /**
+     Вычислить выходные значения по вектору входных сигналов
+
+     @param inputSignals вектор входных сигналов
+     */
     void calculateTheOutputValuesByTheVectorOfTheInputSignals(std::vector<double> &inputSignals);
     /**
      метод запускает пересчёт весов
@@ -67,6 +77,9 @@ public:
      @param learningRate скорость обучения
      */
     void countTheWeightOnTheCurrentLayer(const double learningRate);
+    /**
+     Вектор вычисляет ошибку слоя
+     */
     void toCalculateTheError();
     /**
      Метод пересобирает указатели
