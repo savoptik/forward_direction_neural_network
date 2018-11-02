@@ -35,7 +35,7 @@ void network::exportNetwork(const std::string folderPath) {
     f.open(folderPath+"network", ios::out); // открываем файл
     // выписываем в первую строку размеры матриц весов
     for (int i = 0; i < layers.size(); i++) {
-        f << layers[i].accessToTheNeuronVector().size() << " " << layers[i].accessToTheNeuronVector()[i].getVectorOfWeights().size() << " ";
+        f << layers[i].accessToTheNeuronVector().size() << " " << layers[i].accessToTheNeuronVector()[0].getVectorOfWeights().size() << " ";
     }
     f << endl; // добавляем переход на новую строку.
     for (int i  = 0; i < layers.size(); i++) { // едем по слоям

@@ -30,7 +30,7 @@ std::vector<double> &neuron::getVectorOfWeights() {
 
 neuron::neuron(int size, const int acFunc, const double afa, const double afb) {
     activationFunction = acFunc; // записываем функцию активации
-    mt19937_64 gen(static_cast<int>(time(0))); // генератор случайных чисел
+    mt19937 gen(static_cast<int>(time(0))); // генератор случайных чисел
     uniform_real_distribution<> urd(-0.8, 0.8); // задаём границы
     // резервируем память под векторы
     inSignal.resize(size);
