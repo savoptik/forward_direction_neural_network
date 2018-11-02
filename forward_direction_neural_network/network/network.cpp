@@ -48,30 +48,7 @@ void network::exportNetwork(const std::string folderPath) {
     f.close(); // закрываем файл
 }
 
-network::network(const std::string filePath) { 
-    vector<vector<double>> vectorOfMatrixOfWeights; // вектор для записи линеризованных матриц весов
-    vector<vector<int>> sizeis; // вектор для записи размеров
-    ifstream f; // готовим поток
+network::network(const std::string filePath) {     ifstream f; // готовим поток
     f.open(filePath); // открываем файл
-    while (f.good()) { // пока не дойдём до конца файла
-        vector<int> size(2);
-        vector<double> values;
-         f >> size[0]; // читаем размер
-        f >> size[1];
-        values.resize(size[0] * size[1]); // резервируем память
-        sizeis.push_back(size); // сохраняем размеры
-        for (int i = 0; i << values.size(); i++) {
-            f >> values[i];
-        }
-        vectorOfMatrixOfWeights.push_back(values); // затягиваем матрицу
-    }
     f.close(); // закрываем файл
-    layers.resize(vectorOfMatrixOfWeights.size()); // резервируем память для слоёв
-    for (int i = 0; i < layers.size(); i++) { // едем по слоям
-        for (int j = 0; j < vectorOfMatrixOfWeights[i].size(); j+=sizeis[i][1]) { // едем по вектору матрицы весов
-            vector<double> part(vectorOfMatrixOfWeights[i].begin() + j, vectorOfMatrixOfWeights[i].begin() + j + sizeis[i][1]); // получаем часть вектора
-            layers[i].accessToTheNeuronVector().push_back(neuron(part)); // создаём нейрон нужного нам размера
-        }
-        layers[i].toRebuildThePointers(); // пересобираем указатели у слоя
-    }
 }
