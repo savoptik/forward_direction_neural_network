@@ -85,3 +85,11 @@ network::network(const std::string filePath) {
     }
     f.close(); // закрываем файл
 }
+
+void network::directDistribution(std::vector<double> &inputSignal) {
+    layers[0].calculateTheOutputValuesByTheVectorOfTheInputSignals(inputSignal);
+    for (int i = 1; i < layers.size(); i++) {
+        layers[i].toCalculateTheOutputValuesForTheCurrentLayer(layers[i-1]);
+    }
+}
+

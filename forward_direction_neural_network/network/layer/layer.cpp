@@ -45,7 +45,7 @@ void layer::toCalculateTheOutputValuesForTheCurrentLayer(layer &previousLayer) {
     }
 }
 
-void layer::calculateLocalGradientsForTheCurrentLayer(const double d) { 
+void layer::toCalculateTheComponentOfTheVectorOfErrors(const double d) { 
     for (int i = 0; i < neurons.size(); i++) {
         neurons[i].theCalculationOfTheE(d);
         neurons[i].theCalculationOfTheLocalGradient();
@@ -104,6 +104,11 @@ layer::layer(const int NumberOfNeurons, const int TheSizeOfTheVectorOfWeights) {
     for (int i = 0; i < neurons.size(); i++) {
         neurons[i] = neuron(TheSizeOfTheVectorOfWeights);
     }
+    toRebuildThePointers();
 }
 
-
+void layer::calculateTheOutputValuesByTheVectorOfTheInputSignals(std::vector<double> &inputSignals) { 
+    for (int i = 0; i < neurons.size(); i++) {
+        neurons[i].theCalculationOfTheOutputValueFromInputSignal(inputSignals);
+    }
+}

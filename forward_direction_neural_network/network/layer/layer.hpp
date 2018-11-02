@@ -58,8 +58,9 @@ public:
 
      @param d компонент вектора отклика
      */
-    void calculateLocalGradientsForTheCurrentLayer(const double d);
+    void toCalculateTheComponentOfTheVectorOfErrors(const double d);
     void calculateLocalGradientsForTheCurrentLayer(layer& previousLayer);
+    void calculateTheOutputValuesByTheVectorOfTheInputSignals(std::vector<double> &inputSignals);
     /**
      метод запускает пересчёт весов
 

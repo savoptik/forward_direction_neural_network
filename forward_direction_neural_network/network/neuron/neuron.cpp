@@ -116,6 +116,34 @@ neuron::neuron(const int TheSizeOfTheVectorOfWeights) {
     vectorOfWeights.resize(TheSizeOfTheVectorOfWeights);
 }
 
+void neuron::theCalculationOfTheOutputValueFromInputSignal(std::vector<double> &signal) { 
+    inSignal.resize(signal.size()); // резервируем память под массив входных сигналов
+    // переписываем вектор входных сигналов
+    for (int i = 0; i < inSignal.size(); i++) {
+        inSignal[i] = signal[i];
+    }
+    // расчитываем скалярное произведение
+    for (int i = 0; i < inSignal.size(); i++) {
+        outputValue += inSignal[i] * vectorOfWeights[i];
+    }
+    // применяем соответствующую функцию активации
+    switch (activationFunction) {
+        case 1:
+            outputValue = logistic(outputValue, a);
+            break;
+            
+        case 2:
+            outputValue = identiti(outputValue, a, b);
+            break;
+            
+        case 3:
+            outputValue = hyperbolicTangent(outputValue, a, b);
+            break;
+    }
+}
+
+
+
 double logistic(double x, double a, double b) {
     return b * (1 / 1 + exp(-a * x));
 }
