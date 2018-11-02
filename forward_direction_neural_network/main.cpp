@@ -29,7 +29,7 @@ int main(int argc, const char * argv[]) {
         sample.push_back({0.2, 0.37}); response.push_back(0);
         sample.push_back({0.47, 0.23}); response.push_back(0);
         ps.getNumberOfNeuronsInHiddenLayers().push_back(ps.getNumberOfClassesInTheOutputLayer());
-        network net(ps.getNumberOfNeuronsInHiddenLayers(), sample[0].size(), ps.getActivationFunction(), ps.getParametersOfTheActivationFunction()[0], ps.getParametersOfTheActivationFunction()[1]);
+        network net(ps.getNumberOfNeuronsInHiddenLayers(), static_cast<int>(sample[0].size()), ps.getActivationFunction(), ps.getParametersOfTheActivationFunction()[0], ps.getParametersOfTheActivationFunction()[1]);
         net.exportNetwork(ps.getSavePath());
     }
     return 0;

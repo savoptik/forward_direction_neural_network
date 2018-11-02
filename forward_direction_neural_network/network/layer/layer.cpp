@@ -99,3 +99,11 @@ void layer::toRebuildThePointers() {
     }
 }
 
+layer::layer(const int NumberOfNeurons, const int TheSizeOfTheVectorOfWeights) { 
+    neurons.resize(NumberOfNeurons);
+    for (int i = 0; i < neurons.size(); i++) {
+        neurons[i] = neuron(TheSizeOfTheVectorOfWeights);
+    }
+}
+
+

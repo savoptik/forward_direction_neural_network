@@ -15,7 +15,7 @@
 class neuron {
 public:
     neuron() {}
-    neuron(std::vector<double> &outvectorOfWeights);
+    neuron(const int TheSizeOfTheVectorOfWeights);
     neuron(int size, const int acFunc, const double afa, const double afb = 0);
     /**
      вектор весов

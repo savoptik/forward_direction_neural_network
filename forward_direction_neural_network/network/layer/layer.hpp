@@ -15,6 +15,7 @@
 class layer {
 public:
     layer() {} // конструктор бес параметров
+    layer(const int NumberOfNeurons, const int TheSizeOfTheVectorOfWeights);
     layer(const int number, const int size, const int af, const double a, const double b = 0); // конструктор, принимающий количество нейронов, которые нужно создать, и создающий это количество неййронов.
     /**
      Доступ к вектору нейронов

@@ -8,6 +8,7 @@
 
 #include "network.hpp"
 #include <fstream>
+#include <cstring>
 using namespace std;
 
 std::vector<layer> &network::accessToLayers() { 
@@ -25,7 +26,7 @@ network::network(std::vector<int> &sizes, const int num, const int af, const dou
         cout << sizes[i] << " ";
     } cout << endl;
     for (int i = 1; i < sizes.size(); i++) {
-        layers.push_back(layer(sizes[i], layers[i-1].accessToTheNeuronVector().size(), af, ap, bp));
+        layers.push_back(layer(sizes[i], static_cast<int>(layers[i-1].accessToTheNeuronVector().size()), af, ap, bp));
     }
 }
 
@@ -34,10 +35,11 @@ void network::exportNetwork(const std::string folderPath) {
     f.open(folderPath+"network", ios::out); // открываем файл
     // выписываем в первую строку размеры матриц весов
     for (int i = 0; i < layers.size(); i++) {
-        f << layers[i].accessToTheNeuronVector().size() << " " << layers[i].accessToTheNeuronVector()[i].getVectorOfWeights().size() " ";
+        f << layers[i].accessToTheNeuronVector().size() << " " << layers[i].accessToTheNeuronVector()[i].getVectorOfWeights().size() << " ";
     }
     f << endl; // добавляем переход на новую строку.
-    for (int i  = 0; i < layers.size(); i++) { // едем по слоям        for (int j = 0; j < layers[i].accessToTheNeuronVector().size(); j++) {
+    for (int i  = 0; i < layers.size(); i++) { // едем по слоям
+        for (int j = 0; j < layers[i].accessToTheNeuronVector().size(); j++) {
             for (int k = 0; k < layers[i].accessToTheNeuronVector()[j].getVectorOfWeights().size(); k++) {
                 f << layers[i].accessToTheNeuronVector()[j].getVectorOfWeights()[k]; // записываем значения
                 f << " ";
@@ -48,7 +50,38 @@ void network::exportNetwork(const std::string folderPath) {
     f.close(); // закрываем файл
 }
 
-network::network(const std::string filePath) {     ifstream f; // готовим поток
+network::network(const std::string filePath) {
+    ifstream f; // готовим поток
     f.open(filePath); // открываем файл
+    string s; // строка для строки с параметрами
+    getline(f, s); // выдёргиваем первую строку
+    // внимание, дальше будет много кода на сях, простите за дремучее легаси.
+    char *cs = new char(s.size()); // сишная строка
+    strcpy(cs, s.data()); // копируем строку из нормальной в дремучую.
+    char* stime = strtok(cs, " "); // создаём маленькую строку и загоняем в неё первую лексему
+    int num = atoi(stime); // по идее это количество нейронов на первом скрытом слое, по этому перекидуем эту строчку в инт.
+    stime = strtok(cs, " "); // тащим следующую лексему
+    int size = atoi(stime); // забираем размер вектора весов
+    layers.push_back(layer(num, size)); // создаём первый слой.
+    while (stime != NULL) { // пока не налетим на null
+        // повторяем процедуру
+        stime = strtok(cs, " ");
+        num = atoi(stime);
+        stime = strtok(cs, " ");
+        size = atoi(stime);
+        layers.push_back(layer(num, size));
+    }
+    // освобождаем память, мы же гуманнай народ.
+    delete cs;
+    delete stime;
+    // выдохнули, код на сях кончился, возвращаемся к крестам
+    // заполняем матрицы весов
+    for (int i = 0; i < layers.size(); i++) { // едем по слоям
+        for (int j = 0; j < layers[i].accessToTheNeuronVector().size(); j++) { // едем по нейронам
+            for (int k = 0; k < layers[i].accessToTheNeuronVector()[j].getVectorOfWeights().size(); k++) { // едем по вектору весов
+                f >> layers[i].accessToTheNeuronVector()[j].getVectorOfWeights()[k]; // тащим значение типа double
+            }
+        }
+    }
     f.close(); // закрываем файл
 }
