@@ -36,20 +36,16 @@ parametrsStorage::parametrsStorage(const int numArgv, const char **parametrs) {
             theParametersOfTheActivationFunction.resize(1); // значит параметр у неё один
             theParametersOfTheActivationFunction[0] = stod(parametrs[6]); // забираем его
             numberOfClassesInTheOutputLayer = atoi(parametrs[7]); // принимаем количество классов в выходном слое
-            int num = numArgv - 8; // вычисляем количество скрытых слоёв
-            numberOfNeuronsInHiddenLayers.resize(num); // готовим вектор
-            for (int i = 0; i < num; i++) { // перебираем параметры
-                numberOfNeuronsInHiddenLayers[i] = atoi(parametrs[i+num]); // записываем в вектор количества нейронов на скрытых слоях.
+            for (int i = 8; i < numArgv; i++) {
+                numberOfNeuronsInHiddenLayers.push_back(atoi(parametrs[i]));
             }
         } else { // если выбрана другая функция активации
             theParametersOfTheActivationFunction.resize(2); // у неё 2 параметра
             theParametersOfTheActivationFunction[0] = atoi(parametrs[6]); // забираем параметры
             theParametersOfTheActivationFunction[1] = atoi(parametrs[7]);
             numberOfClassesInTheOutputLayer = atoi(parametrs[8]); // принимаем количество нейронов в выходном слое
-            int num = numArgv - 9; // вычисляем количество скрытых слоёв
-            numberOfNeuronsInHiddenLayers.resize(num); // выделяем память
-            for (int i = 0; i < num; i++) { // перебираем параметры
-                numberOfNeuronsInHiddenLayers[i] = atoi(parametrs[i+num]); // забираем количества нейронов на скрытых слоях
+            for (int i = 9; i < numArgv; i++) {
+                numberOfNeuronsInHiddenLayers.push_back(atoi(parametrs[i]));
             }
         }
     } else { // если выбран режим работы распознавания
