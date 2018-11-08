@@ -29,6 +29,7 @@
 /* Begin PBXFileReference section */
 		84CEF86E216F57280044E3F0 /* neuron.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = neuron.cpp; sourceTree = "<group>"; };
 		84CEF86F216F57280044E3F0 /* neuron.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = neuron.hpp; sourceTree = "<group>"; };
+		FE20340821944D7B0001314F /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		FE271AB72178E75100FE4D00 /* layer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = layer.cpp; sourceTree = "<group>"; };
 		FE271AB82178E75100FE4D00 /* layer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = layer.hpp; sourceTree = "<group>"; };
 		FE8573CB217DB29D0025D65D /* network.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = network.cpp; sourceTree = "<group>"; };
@@ -83,6 +84,7 @@
 		FEDDB699216AC33E00D86851 = {
 			isa = PBXGroup;
 			children = (
+				FE20340821944D7B0001314F /* README.md */,
 				FEDDB6A4216AC33E00D86851 /* forward_direction_neural_network */,
 				FEDDB6A3216AC33E00D86851 /* Products */,
 			);
