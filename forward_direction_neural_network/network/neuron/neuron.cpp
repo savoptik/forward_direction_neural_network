@@ -102,7 +102,7 @@ double &neuron::theCalculationOfTheLocalGradient() {
 }
 
 void neuron::weightChangeCalculation(const double learningRate) {
-    for (int i = 0; i < vectorOfChangesOfWeights.size(); i++) {
+    for (int i = 0; i < vectorOfWeights.size(); i++) {
         vectorOfWeights[i] += learningRate * localGradient * inSignal[i];
     }
 }
