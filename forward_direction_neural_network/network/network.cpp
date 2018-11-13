@@ -9,6 +9,9 @@
 #include "network.hpp"
 #include <fstream>
 #include <cstring>
+#include <random>
+#include <algorithm>
+#include <iterator>
 using namespace std;
 
 std::vector<layer> &network::accessToLayers() { 
@@ -105,21 +108,37 @@ void network::backPropagation(std::vector<double> &responseVector, const double 
 }
 
 void network::train(std::vector<std::vector<double> > &TrainingSample, std::vector<std::vector<double>> &response, const double epsErrorse, const double lg, const int MaximumNumberOfEpochs) {
-    int era = 0;
-    double currentError = 0, backError = 10.0;
-    while ((era < MaximumNumberOfEpochs) && (currentError < backError)) {
-        backError = currentError;
-        currentError = 0;
+    int era = 0; // номер текущей эпохи
+    double currentError = 9.0, backError = 10.0; // текущая и предыдущая ошибка
+    std::vector<int> indexes; // вектор индексов
+    indexes.resize(response.size()); // задаём размер массива индексов
+    for (long i = 0; i < indexes.size(); i++) {
+        indexes[i] = i; // заполняем массив индексов индексами по порядку
+    }
+    // Пока количество эпох меньше заданного, текущая ошибка меньше предыдущей и текущая ошибка не привышает заданного порога
+    while ((era < MaximumNumberOfEpochs) && (currentError < backError) && (currentError < epsErrorse)) {
+        shuffleIndexes(indexes); // перемешиваем индексы
+        backError = currentError; // фиксируем ошибку
+        currentError = 0; // обнуляем ошибку
         for (int i = 0; i < TrainingSample.size(); i++) {
-            directPropagation(TrainingSample[i]);
-            backPropagation(response[i], lg);
+            directPropagation(TrainingSample[indexes[i]]); // запускаем прямой проход со случайным элементом
+            backPropagation(response[indexes[i]], lg); // запускаем обратный проход с соответствующим откликом
         }
+        // вычисляем ошибку
         for (int j = 0; j < errors.size(); j++) {
             currentError += errors[j];
+            currentError /= 2;
         }
-                    currentError /= 2;
-        errors.clear();
+        errors.clear(); // отчищаем ошибки
         era++;
     }
+    cout << "Обучение завершилось за " << era << " эплох\n";
 }
+
+void network::shuffleIndexes(std::vector<int> &indexes) { 
+    std::random_device rd;
+    std::mt19937 g(rd());
+    shuffle(indexes.begin(), indexes.end(), g);
+}
+
 

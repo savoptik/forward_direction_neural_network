@@ -11,7 +11,7 @@
 using namespace std;
 
 double layer::getError() { 
-    return error;
+    return error; // ошибка на слое
 }
 
 std::vector<double *> &layer::AccessToTheErrorVector() { 
@@ -31,30 +31,31 @@ std::vector<neuron> &layer::accessToTheNeuronVector() {
 }
 
 layer::layer(const int number, const int size, const int af, const double a, const double b) {
+    // создание нейронов
     for (int i = 0; i < number; i++) {
         neurons.push_back(neuron(size, af, a, b));
     }
-    toRebuildThePointers();
+    toRebuildThePointers(); // пересбор указателей
     ap = a;
     bp = b;
 }
 
 void layer::toCalculateTheOutputValuesForTheCurrentLayer(layer &previousLayer) {
-    for (int i = 0; i < neurons.size(); i++) {
-        neurons[i].theCalculationOfTheOutputValue(previousLayer.AccessToTheOutputVector());
+    for (int i = 0; i < neurons.size(); i++) { // едем по нейронам
+        neurons[i].theCalculationOfTheOutputValue(previousLayer.AccessToTheOutputVector()); // вычисляем выходные значения
     }
 }
 
 void layer::toCalculateTheComponentOfTheVectorOfErrors(vector<double>& d) { 
     for (int i = 0; i < neurons.size(); i++) {
-        neurons[i].theCalculationOfTheE(d[i]);
-        neurons[i].theCalculationOfTheLocalGradient();
+        neurons[i].theCalculationOfTheE(d[i]); // вычисляем ошибку
+        neurons[i].theCalculationOfTheLocalGradient(); // за одно и локальный градиент. только для выходного слоя
     }
 }
 
 void layer::countTheWeightOnTheCurrentLayer(const double learningRate) { 
     for (int i = 0; i < neurons.size(); i++) {
-        neurons[i].weightChangeCalculation(learningRate);
+        neurons[i].weightChangeCalculation(learningRate); // вычесляем изменения векторов весов
     }
 }
 
@@ -112,6 +113,3 @@ void layer::calculateTheOutputValuesByTheVectorOfTheInputSignals(std::vector<dou
         neurons[i].theCalculationOfTheOutputValueFromInputSignal(inputSignals);
     }
 }
-
-
-

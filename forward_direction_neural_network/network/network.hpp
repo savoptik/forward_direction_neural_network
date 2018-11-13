@@ -58,6 +58,7 @@ private:
      @param lg локальный градиент
      */
     void backPropagation(std::vector<double> &responseVector, const double lg);
+    void shuffleIndexes(std::vector<int> &indexes);
     std::vector<layer> layers;
     std::vector<double> errors;
 };

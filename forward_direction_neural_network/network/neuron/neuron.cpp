@@ -13,19 +13,19 @@
 using namespace std;
 
 double& neuron::getOutputValue() {
-    return outputValue;
+    return outputValue; // возвращаем выходное значение
 }
 
 double& neuron::getLocalGradient() {
-    return localGradient;
+    return localGradient; // возвращаем локальный градиент
 }
 
 int neuron::getActivationFunction() { 
-    return activationFunction;
+    return activationFunction; // возвращаем функцию активации
 }
 
 std::vector<double> &neuron::getVectorOfWeights() { 
-    return vectorOfWeights;
+    return vectorOfWeights; // возвращаем ссылку на вектор весов
 }
 
 neuron::neuron(int size, const int acFunc, const double afa, const double afb) {
@@ -46,7 +46,7 @@ neuron::neuron(int size, const int acFunc, const double afa, const double afb) {
 }
 
 std::vector<double> &neuron::getInputVector() { 
-    return inSignal;
+    return inSignal; // возвращаем ссылку на вектор входных сигналов
 }
 
 void neuron::theCalculationOfTheOutputValue(std::vector<double*> &signal) {
@@ -76,7 +76,7 @@ void neuron::theCalculationOfTheOutputValue(std::vector<double*> &signal) {
 }
 
 double& neuron::getE() {
-    return e;
+    return e; // возвращаем ссылку на ошибку
 }
 
 double& neuron::theCalculationOfTheE(const double d) {
@@ -103,7 +103,7 @@ double &neuron::theCalculationOfTheLocalGradient() {
 }
 
 std::vector<double> &neuron::getVectorOfChangesOfWeights() { 
-    return vectorOfChangesOfWeights;
+    return vectorOfChangesOfWeights; // возвращаем ссылку на вектор изменения весов
 }
 
 void neuron::weightChangeCalculation(const double learningRate) {
