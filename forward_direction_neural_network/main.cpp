@@ -38,7 +38,7 @@ int main(int argc, const char * argv[]) {
         }
         ps.getNumberOfNeuronsInHiddenLayers().push_back(ps.getNumberOfClassesInTheOutputLayer()); // добавляем в количества нейронов скрытых слоёв количество нейронов на последнем слое
         network net(ps.getNumberOfNeuronsInHiddenLayers(), static_cast<int>(sample[0].size()), ps.getActivationFunction(), ps.getParametersOfTheActivationFunction()[0], ps.getParametersOfTheActivationFunction()[1]); // создаём сеть
-        net.train(sample, convertResponse, 100, ps.getLearningRate(), 100); // тренируем сеть
+        net.train(sample, convertResponse, 0.01, ps.getLearningRate(), 100); // тренируем сеть
         net.exportNetwork(ps.getSavePath()); // выгружаем сеть
     }
     return 0;

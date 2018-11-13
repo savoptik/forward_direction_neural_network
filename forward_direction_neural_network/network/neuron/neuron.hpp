@@ -88,7 +88,6 @@ public:
 private:
     std::vector<double> vectorOfWeights; // вектор весов
     std::vector<double> inSignal; // сохранённый входной сигнал
-    std::vector<double> vectorOfChangesOfWeights; // вектор изменений весов
     int activationFunction; // номер функции активации
     double localGradient; // локальный градиент
     double outputValue; // выходное значение
