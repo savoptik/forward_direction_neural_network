@@ -41,5 +41,8 @@ int main(int argc, const char * argv[]) {
         net.train(sample, convertResponse, 0.01, ps.getLearningRate(), 100); // тренируем сеть
         net.exportNetwork(ps.getSavePath()); // выгружаем сеть
     }
+    if (ps.operatingMode() == 2) {
+        network net(ps.getInputPath());
+    }
     return 0;
 }
