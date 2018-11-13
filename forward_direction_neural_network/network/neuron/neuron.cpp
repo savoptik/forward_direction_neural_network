@@ -34,7 +34,6 @@ neuron::neuron(int size, const int acFunc, const double afa, const double afb) {
     // резервируем память под векторы
     inSignal.resize(size);
     vectorOfWeights.resize(size);
-    vectorOfChangesOfWeights.resize(size);
     // заполняем вектор весов случайными числами
     for (int i = 0; i < vectorOfWeights.size(); i++) {
         vectorOfWeights[i] = double(rand() % 16000)/10000 - 1.6;
@@ -102,13 +101,9 @@ double &neuron::theCalculationOfTheLocalGradient() {
     return localGradient;
 }
 
-std::vector<double> &neuron::getVectorOfChangesOfWeights() { 
-    return vectorOfChangesOfWeights; // возвращаем ссылку на вектор изменения весов
-}
-
 void neuron::weightChangeCalculation(const double learningRate) {
     for (int i = 0; i < vectorOfChangesOfWeights.size(); i++) {
-        vectorOfChangesOfWeights[i] = learningRate * localGradient * inSignal[i];
+        vectorOfWeights[i] += learningRate * localGradient * inSignal[i];
     }
 }
 
