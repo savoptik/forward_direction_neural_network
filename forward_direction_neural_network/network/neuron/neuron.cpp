@@ -10,6 +10,7 @@
 #include <random>
 #include <ctime>
 #include <cmath>
+#include <algorithm>
 using namespace std;
 
 double& neuron::getOutputValue() {
@@ -29,15 +30,18 @@ std::vector<double> &neuron::getVectorOfWeights() {
 }
 
 neuron::neuron(int size, const int acFunc, const double afa, const double afb) {
-    srand(static_cast<int>(time(0)));
+    std::random_device rd;
+    std::mt19937 gen(rd.entropy());
+    std::uniform_real_distribution<> urd(-0.8, 0.8);
     activationFunction = acFunc; // записываем функцию активации
     // резервируем память под векторы
     inSignal.resize(size);
     vectorOfWeights.resize(size);
     // заполняем вектор весов случайными числами
     for (int i = 0; i < vectorOfWeights.size(); i++) {
-        vectorOfWeights[i] = double(rand() % 16000)/10000 - 1.6;
-        system("sleep 1");
+//        vectorOfWeights[i] = double(rand() % 16000)/10000 - 1.6;
+//        system("sleep 1");
+        vectorOfWeights[i] = urd(gen);
     }
     // сохраняем параметры функции активации
     a = afa;

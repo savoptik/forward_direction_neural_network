@@ -109,14 +109,14 @@ void network::backPropagation(std::vector<double> &responseVector, const double 
 
 void network::train(std::vector<std::vector<double> > &TrainingSample, std::vector<std::vector<double>> &response, const double epsErrorse, const double lg, const int MaximumNumberOfEpochs) {
     int era = 0; // номер текущей эпохи
-    double currentError = 9.0, backError = 10.0; // текущая и предыдущая ошибка
+    double currentError = 0, backError = 0; // текущая и предыдущая ошибка
     std::vector<int> indexes; // вектор индексов
     indexes.resize(response.size()); // задаём размер массива индексов
     for (long i = 0; i < indexes.size(); i++) {
         indexes[i] = i; // заполняем массив индексов индексами по порядку
     }
     // Пока количество эпох меньше заданного, текущая ошибка меньше предыдущей и текущая ошибка не привышает заданного порога
-    while ((era < MaximumNumberOfEpochs) && (abs(currentError - backError) <= 0.001) && (currentError < epsErrorse)) {
+    while ((era < MaximumNumberOfEpochs) && (abs(currentError - backError) < 0.001) && (currentError < epsErrorse)) {
         shuffleIndexes(indexes); // перемешиваем индексы
         backError = currentError; // фиксируем ошибку
         currentError = 0; // обнуляем ошибку
@@ -129,10 +129,10 @@ void network::train(std::vector<std::vector<double> > &TrainingSample, std::vect
             currentError += errors[j];
             currentError /= 2;
         }
-        errors.clear(); // отчищаем ошибки
+        errors.clear();
         era++;
     }
-    cout << "Обучение завершилось за " << era << " эплох\n";
+    cout << "Обучение завершилось за " << era << " эпох\n";
 }
 
 void network::shuffleIndexes(std::vector<int> &indexes) { 

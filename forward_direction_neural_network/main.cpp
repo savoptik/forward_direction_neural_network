@@ -9,6 +9,8 @@
 #include <iostream>
 #include "parametrsStorage/parametrsStorage.hpp"
 #include "network/network.hpp"
+#include "mnist-master/include/mnist/mnist_reader.hpp"
+#include "mnist-master/include/mnist/mnist_utils.hpp"
 
 int main(int argc, const char * argv[]) {
     parametrsStorage ps(argc, argv); // разбираем аргументы коммандной строки
@@ -16,30 +18,31 @@ int main(int argc, const char * argv[]) {
         return 0; // выходим
     }
     if ((ps.operatingMode() == 1)) { // если режим работы 1
-        std::vector<std::vector<double>> sample; // вектор премеров
-        std::vector<double> response; // вектор откликов
-        // заполняем тестовыми примерами для решения задачи xor.
-        sample.push_back({0.01, 0.25}); response.push_back(0);
-        sample.push_back({0.7, 0.33}); response.push_back(1);
-        sample.push_back({0.25, 0.4}); response.push_back(0);
-        sample.push_back({0.1, 0.8}); response.push_back(1);
-        sample.push_back({0.2, 0.7}); response.push_back(1);
-        sample.push_back({0.8, 0.75}); response.push_back(0);
-        sample.push_back({0, 0.93}); response.push_back(1);
-        sample.push_back({0.49, 0.55}); response.push_back(1);
-        sample.push_back({0.2, 0.37}); response.push_back(0);
-        sample.push_back({0.47, 0.23}); response.push_back(0);
+        std::cout << "Читаю базу МНИСТ…\n";
+        auto ds = mnist::read_dataset();
+        mnist::binarize_dataset(ds);
         // преобразуем вектор откликов к виду, в котором еденица означает число
         std::vector<std::vector<double>> convertResponse;
-        convertResponse.resize(response.size()); // задаём размер
-        for (long i = 0; i < response.size(); i++) { // обходим вектор
+        convertResponse.resize(ds.training_labels.size()); // задаём размер
+        for (long i = 0; i < convertResponse.size(); i++) { // обходим вектор
             convertResponse[i].resize(10); // задаём размер
-            convertResponse[i][static_cast<int>(response[i])] = 1; // записываем на соответствующую позицию единицу
+            convertResponse[i][static_cast<int>(ds.training_labels[i])] = 1; // записываем на соответствующую позицию единицу
         }
+        std::vector<std::vector<double>> trainData;
+        for (int i  = 0; i < trainData.size(); i++) {
+            trainData.resize(ds.training_images.size());
+            for (int j = 0; j < trainData[i].size(); j++) {
+                trainData[i][j] = static_cast<double>(ds.training_images[i][j]);
+            }
+        }
+        std::cout << "Готовлю сеть…\n";
         ps.getNumberOfNeuronsInHiddenLayers().push_back(ps.getNumberOfClassesInTheOutputLayer()); // добавляем в количества нейронов скрытых слоёв количество нейронов на последнем слое
-        network net(ps.getNumberOfNeuronsInHiddenLayers(), static_cast<int>(sample[0].size()), ps.getActivationFunction(), ps.getParametersOfTheActivationFunction()[0], ps.getParametersOfTheActivationFunction()[1]); // создаём сеть
-        net.train(sample, convertResponse, 0.01, ps.getLearningRate(), 100); // тренируем сеть
+        network net(ps.getNumberOfNeuronsInHiddenLayers(), static_cast<int>(ds.training_images[0].size()), ps.getActivationFunction(), ps.getParametersOfTheActivationFunction()[0], ps.getParametersOfTheActivationFunction()[1]); // создаём сеть
+        std::cout << "Учусь…\n";
+        net.train(trainData, convertResponse, 0.01, ps.getLearningRate(), 100); // тренируем сеть
+        std::cout << "Вываливаю сеть на диск.\n";
         net.exportNetwork(ps.getSavePath()); // выгружаем сеть
+        std::cout << "Всё!\n";
     }
     if (ps.operatingMode() == 2) {
         network net(ps.getInputPath());
