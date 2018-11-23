@@ -20,6 +20,7 @@ int main(int argc, const char * argv[]) {
     if ((ps.operatingMode() == 1)) { // если режим работы 1
         std::cout << "Читаю базу МНИСТ…\n";
         auto ds = mnist::read_dataset();
+        std::cout << "прочитано " << ds.training_images.size() << " тренеровочных примеров, " << ds.training_labels.size() << " меток, " << ds.test_images.size() << " тестовых примеров и " << ds.test_labels.size() << " меток.\n";
         mnist::binarize_dataset(ds);
         // преобразуем вектор откликов к виду, в котором еденица означает число
         std::vector<std::vector<double>> convertResponse;
@@ -29,17 +30,19 @@ int main(int argc, const char * argv[]) {
             convertResponse[i][static_cast<int>(ds.training_labels[i])] = 1; // записываем на соответствующую позицию единицу
         }
         std::vector<std::vector<double>> trainData;
+        trainData.resize(ds.training_images.size());
         for (int i  = 0; i < trainData.size(); i++) {
-            trainData.resize(ds.training_images.size());
+            trainData[i].resize(ds.training_images[i].size());
             for (int j = 0; j < trainData[i].size(); j++) {
                 trainData[i][j] = static_cast<double>(ds.training_images[i][j]);
             }
         }
+        std::cout << "После преобразования " << trainData.size() << " примеров и " << convertResponse.size() << " меток.\n";
         std::cout << "Готовлю сеть…\n";
         ps.getNumberOfNeuronsInHiddenLayers().push_back(ps.getNumberOfClassesInTheOutputLayer()); // добавляем в количества нейронов скрытых слоёв количество нейронов на последнем слое
         network net(ps.getNumberOfNeuronsInHiddenLayers(), static_cast<int>(ds.training_images[0].size()), ps.getActivationFunction(), ps.getParametersOfTheActivationFunction()[0], ps.getParametersOfTheActivationFunction()[1]); // создаём сеть
         std::cout << "Учусь…\n";
-        net.train(trainData, convertResponse, 0.01, ps.getLearningRate(), 100); // тренируем сеть
+        net.train(trainData, convertResponse, 0.1, ps.getLearningRate(), 100); // тренируем сеть
         std::cout << "Вываливаю сеть на диск.\n";
         net.exportNetwork(ps.getSavePath()); // выгружаем сеть
         std::cout << "Всё!\n";

@@ -116,7 +116,7 @@ void network::train(std::vector<std::vector<double> > &TrainingSample, std::vect
         indexes[i] = i; // заполняем массив индексов индексами по порядку
     }
     // Пока количество эпох меньше заданного, текущая ошибка меньше предыдущей и текущая ошибка не привышает заданного порога
-    while ((era < MaximumNumberOfEpochs) && (abs(currentError - backError) < 0.001) && (currentError < epsErrorse)) {
+    do {
         shuffleIndexes(indexes); // перемешиваем индексы
         backError = currentError; // фиксируем ошибку
         currentError = 0; // обнуляем ошибку
@@ -131,7 +131,7 @@ void network::train(std::vector<std::vector<double> > &TrainingSample, std::vect
         }
         errors.clear();
         era++;
-    }
+    } while ((era < MaximumNumberOfEpochs) && (abs(currentError - backError) <= 0.01) && (currentError < epsErrorse));
     cout << "Обучение завершилось за " << era << " эпох\n";
 }
 
