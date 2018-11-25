@@ -50,7 +50,7 @@ void layer::toCalculateTheComponentOfTheVectorOfErrors(vector<double>& d) {
     for (int i = 0; i < neurons.size(); i++) {
         neurons[i].theCalculationOfTheE(d[i]); // вычисляем ошибку
         neurons[i].theCalculationOfTheLocalGradient(); // за одно и локальный градиент. только для выходного слоя
-    }
+}
 }
 
 void layer::countTheWeightOnTheCurrentLayer(const double learningRate) { 
