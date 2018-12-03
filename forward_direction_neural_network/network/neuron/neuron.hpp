@@ -74,12 +74,6 @@ public:
      */
     double& getE();
     /**
-     Доступ к вектору изменений весов
-
-     @return ссылку на вектор изменений весов
-     */
-    std::vector<double>& getVectorOfChangesOfWeights();
-    /**
      Пересчёт вектора весов
 
      @param learningRate Скорость обучения
@@ -88,11 +82,11 @@ public:
 private:
     std::vector<double> vectorOfWeights; // вектор весов
     std::vector<double> inSignal; // сохранённый входной сигнал
-    int activationFunction; // номер функции активации
-    double localGradient; // локальный градиент
-    double outputValue; // выходное значение
-    double a, b; // параметры функции активации
-    double e; //компонент вектора ошибки
+    int activationFunction = 0; // номер функции активации
+    double localGradient = 0.0; // локальный градиент
+    double outputValue = 0.0; // выходное значение
+    double a = 0.0, b = 0.0; // параметры функции активации
+    double e = 0.0; //компонент вектора ошибки
 };
 
 // функции активации и их производные

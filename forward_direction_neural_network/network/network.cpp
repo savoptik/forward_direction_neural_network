@@ -94,12 +94,19 @@ void network::directPropagation(std::vector<double> &inputSignal) {
     for (int i = 1; i < layers.size(); i++) {
         layers[i].toCalculateTheOutputValuesForTheCurrentLayer(layers[i-1]);
     }
+    outVector.resize(layers[layers.size()-1].AccessToTheOutputVector().size());
+    for (int i = 0; i < outVector.size(); i++) {
+        outVector[i] = *layers[layers.size()-1].AccessToTheOutputVector()[i];
+    }
 }
 
 void network::backPropagation(std::vector<double> &responseVector, const double lg) {
     layers[layers.size()-1].toCalculateTheComponentOfTheVectorOfErrors(responseVector);
     layers[layers.size()-1].countTheWeightOnTheCurrentLayer(lg);
     layers[layers.size()-1].toCalculateTheError();
+    if (std::isnan(layers[layers.size()-1].getError())) {
+        nans++;
+    }
     errors.push_back(layers[layers.size()-1].getError());
     for (int i = static_cast<int>(layers.size()) - 2; i >= 0; i--) {
         layers[i].calculateLocalGradientsForTheCurrentLayer(layers[i+1]);
@@ -109,30 +116,29 @@ void network::backPropagation(std::vector<double> &responseVector, const double 
 
 void network::train(std::vector<std::vector<double> > &TrainingSample, std::vector<std::vector<double>> &response, const double epsErrorse, const double lg, const int MaximumNumberOfEpochs) {
     int era = 0; // номер текущей эпохи
-    double currentError = 0, backError = 0.01; // текущая и предыдущая ошибка
+    double currentError = 0.1, backError = 0; // текущая и предыдущая ошибка
     std::vector<int> indexes; // вектор индексов
     indexes.resize(response.size()); // задаём размер массива индексов
     for (long i = 0; i < indexes.size(); i++) {
         indexes[i] = i; // заполняем массив индексов индексами по порядку
     }
     // Пока количество эпох меньше заданного, текущая ошибка меньше предыдущей и текущая ошибка не привышает заданного порога
-    while ((era < MaximumNumberOfEpochs) && (abs(currentError - backError) <= 0.01) && (currentError < epsErrorse)) {
+    while ((era < MaximumNumberOfEpochs) /* && (abs(currentError - backError) >= 0.001) && (currentError > epsErrorse) */) {
         shuffleIndexes(indexes); // перемешиваем индексы
         backError = currentError; // фиксируем ошибку
-        currentError = 0; // обнуляем ошибку
+        currentError = 0.000; // обнуляем ошибку
         for (int i = 0; i < TrainingSample.size(); i++) {
             directPropagation(TrainingSample[indexes[i]]); // запускаем прямой проход со случайным элементом
             backPropagation(response[indexes[i]], lg); // запускаем обратный проход с соответствующим откликом
         }
         // вычисляем ошибку
-        std::cout << " имеем вектор из " << errors.size() << " ошибок\n";
         for (int j = 0; j < errors.size(); j++) {
-            currentError += errors[j];
+            currentError = currentError + errors[j];
         }
         currentError = currentError / errors.size();
         errors.clear();
-        std::cout << "Ошибка " << currentError << std::endl;
         era++;
+        std::cout << "Ошибка " << currentError << " после " << era << "-ой эпохи\n";
     }
     cout << "Обучение завершилось за " << era << " эпох\n";
 }

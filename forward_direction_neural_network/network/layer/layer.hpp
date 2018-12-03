@@ -90,8 +90,8 @@ private:
     std::vector<double *> outputValues; // вектор указателй на выходные значения
     std::vector<double *> localGradients; // вектор указателей на локальные градиенты
     std::vector<double *> errors; // вектор указателей на компоненты вектора ошибок.
-    double error; // Ошибка
-    double ap, bp;
+    double error = 0; // Ошибка
+    double ap = 0, bp = 0;
 };
 
 #endif /* layer_hpp */

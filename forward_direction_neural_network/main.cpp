@@ -35,7 +35,16 @@ int main(int argc, const char * argv[]) {
         ps.getNumberOfNeuronsInHiddenLayers().push_back(ps.getNumberOfClassesInTheOutputLayer()); // добавляем в количества нейронов скрытых слоёв количество нейронов на последнем слое
         network net(ps.getNumberOfNeuronsInHiddenLayers(), static_cast<int>(ds.training_images[0].size()), ps.getActivationFunction(), ps.getParametersOfTheActivationFunction()[0], ps.getParametersOfTheActivationFunction()[1]); // создаём сеть
         std::cout << "Учусь…\n";
-        net.train(trainData, convertResponse, 0.1, ps.getLearningRate(), 100); // тренируем сеть
+        net.train(trainData, convertResponse, 0.01, ps.getLearningRate(), 100); // тренируем сеть
+        std::cout << "проверяюсь…\n";
+        int goot = 0;
+        for (int i  = 0; i < trainData.size(); i++) {
+            net.directPropagation(trainData[i]);
+            if (theTransformationOfTheVectorOfOutputSignals(net.accessToOutVector()) == theTransformationOfTheVectorOfOutputSignals(convertResponse[i])) {
+                goot++;
+            }
+        }
+        std::cout << "ошибка обучения " << double(goot) / trainData.size() << std::endl;
         std::cout << "Вываливаю сеть на диск.\n";
         net.exportNetwork(ps.getSavePath()); // выгружаем сеть
         std::cout << "Всё!\n";
@@ -51,7 +60,7 @@ void convertingLabels(std::vector<u_char>& inLables, std::vector<std::vector<dou
     lables.resize(inLables.size());
     for (long i = 0; i < lables.size(); i++) { // обходим вектор
         lables[i].resize(10); // задаём размер
-        lables[i][static_cast<int>(inLables[i])] = 1; // записываем на соответствующую позицию единицу
+        lables[i][inLables[i]] = 1; // записываем на соответствующую позицию единицу
     }
 }
 
@@ -60,7 +69,7 @@ void imageConversion(std::vector<std::vector<u_char>>& charImages, std::vector<s
     for (int i  = 0; i < outImages.size(); i++) {
         outImages[i].resize(charImages[i].size());
         for (int j = 0; j < outImages[i].size(); j++) {
-            outImages[i][j] = static_cast<double>(charImages[i][j]);
+            outImages[i][j] = charImages[i][j];
         }
     }
 }

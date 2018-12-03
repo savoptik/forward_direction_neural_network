@@ -7,6 +7,7 @@
 //
 
 #include "layer.hpp"
+#include <iostream>
 #include <cmath>
 using namespace std;
 
@@ -62,9 +63,9 @@ void layer::countTheWeightOnTheCurrentLayer(const double learningRate) {
 void layer::calculateLocalGradientsForTheCurrentLayer(layer &previousLayer) { 
     for (int i = 0; i < localGradients.size(); i++) {
         double sum = 0;
-        for (int k = 0; k < previousLayer.accessToTheLocalGradientVector().size(); k++) {
-            sum += *previousLayer.accessToTheLocalGradientVector()[k] * neurons[i].getVectorOfWeights()[k];
-        }
+            for (int k = 0; k < previousLayer.accessToTheNeuronVector().size(); k++) {
+                sum += *previousLayer.accessToTheLocalGradientVector()[k] * previousLayer.accessToTheNeuronVector()[k].getVectorOfWeights()[i];
+            }
         switch (neurons[0].getActivationFunction()) {
             case 1:
                 *localGradients[i] = Dlogistic(*outputValues[i], ap) * sum;

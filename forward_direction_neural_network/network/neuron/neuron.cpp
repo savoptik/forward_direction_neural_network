@@ -11,6 +11,7 @@
 #include <ctime>
 #include <cmath>
 #include <algorithm>
+#include <iostream>
 using namespace std;
 
 double& neuron::getOutputValue() {
@@ -30,8 +31,9 @@ std::vector<double> &neuron::getVectorOfWeights() {
 }
 
 neuron::neuron(int size, const int acFunc, const double afa, const double afb) {
-    std::random_device rd;
-    std::mt19937 gen(rd.entropy());
+//    std::random_device rd;
+    std::default_random_engine dra(time(0));
+//    std::mt19937 gen(rd.entropy());
     std::uniform_real_distribution<> urd(-0.8, 0.8);
     activationFunction = acFunc; // записываем функцию активации
     // резервируем память под векторы
@@ -41,7 +43,8 @@ neuron::neuron(int size, const int acFunc, const double afa, const double afb) {
     for (int i = 0; i < vectorOfWeights.size(); i++) {
 //        vectorOfWeights[i] = double(rand() % 16000)/10000 - 1.6;
 //        system("sleep 1");
-        vectorOfWeights[i] = urd(gen);
+        double t = urd(dra);
+        vectorOfWeights[i] = t;
     }
     // сохраняем параметры функции активации
     a = afa;
@@ -53,7 +56,6 @@ std::vector<double> &neuron::getInputVector() {
 }
 
 void neuron::theCalculationOfTheOutputValue(std::vector<double*> &signal) {
-    inSignal.resize(signal.size()); // резервируем память под массив входных сигналов
     // переписываем вектор входных сигналов
     for (int i = 0; i < inSignal.size(); i++) {
         inSignal[i] = *signal[i];
@@ -115,8 +117,7 @@ neuron::neuron(const int TheSizeOfTheVectorOfWeights) {
     vectorOfWeights.resize(TheSizeOfTheVectorOfWeights);
 }
 
-void neuron::theCalculationOfTheOutputValueFromInputSignal(std::vector<double> &signal) { 
-    inSignal.resize(signal.size()); // резервируем память под массив входных сигналов
+void neuron::theCalculationOfTheOutputValueFromInputSignal(std::vector<double> &signal) {
     // переписываем вектор входных сигналов
     for (int i = 0; i < inSignal.size(); i++) {
         inSignal[i] = signal[i];
@@ -144,7 +145,7 @@ void neuron::theCalculationOfTheOutputValueFromInputSignal(std::vector<double> &
 
 
 double logistic(double x, double a, double b) {
-    return b * (1 / 1 + exp(-a * x));
+    return b * (1 / (1 + exp(-a * x)));
 }
 
 double Dlogistic(double y, double a, double b) {
