@@ -23,14 +23,16 @@ std::vector<double> &network::accessToErrors() {
 }
 
 network::network(std::vector<int> &sizes, const int num, const int af, const double ap, const double bp) { 
-    layers.push_back(layer(sizes[0], num, af, ap, bp));
+    layers.push_back(layer(sizes[0]+1, num+1, af, ap, bp));
     std::cout << "размеры слоёв ";
     for (int i = 0; i < sizes.size(); i++) {
         cout << sizes[i] << " ";
     } cout << endl;
-    for (int i = 1; i < sizes.size(); i++) {
-        layers.push_back(layer(sizes[i], static_cast<int>(layers[i-1].accessToTheNeuronVector().size()), af, ap, bp));
+    for (int i = 1; i < sizes.size()-1; i++) {
+        layers.push_back(layer(sizes[i]+1, static_cast<int>(layers[i-1].accessToTheNeuronVector().size()), af, ap, bp));
     }
+    layers.push_back(layer(sizes[sizes.size()-1], static_cast<int>(layers[sizes.size()-2].accessToTheNeuronVector().size()), af, ap, bp));
+    outVector = &layers[layers.size()-1].AccessToTheOutputVector();
 }
 
 void network::exportNetwork(const std::string folderPath) { 
@@ -94,10 +96,6 @@ void network::directPropagation(std::vector<double> &inputSignal) {
     for (int i = 1; i < layers.size(); i++) {
         layers[i].toCalculateTheOutputValuesForTheCurrentLayer(layers[i-1]);
     }
-    outVector.resize(layers[layers.size()-1].AccessToTheOutputVector().size());
-    for (int i = 0; i < outVector.size(); i++) {
-        outVector[i] = *layers[layers.size()-1].AccessToTheOutputVector()[i];
-    }
 }
 
 void network::backPropagation(std::vector<double> &responseVector, const double lg) {
@@ -123,7 +121,7 @@ void network::train(std::vector<std::vector<double> > &TrainingSample, std::vect
         indexes[i] = i; // заполняем массив индексов индексами по порядку
     }
     // Пока количество эпох меньше заданного, текущая ошибка меньше предыдущей и текущая ошибка не привышает заданного порога
-    while ((era < MaximumNumberOfEpochs) /* && (abs(currentError - backError) >= 0.001) && (currentError > epsErrorse) */) {
+    while ((era < MaximumNumberOfEpochs) && (abs(currentError - backError) >= 0.000001) && (currentError > epsErrorse)) {
         shuffleIndexes(indexes); // перемешиваем индексы
         backError = currentError; // фиксируем ошибку
         currentError = 0.000; // обнуляем ошибку

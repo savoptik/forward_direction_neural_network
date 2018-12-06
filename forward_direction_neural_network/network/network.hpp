@@ -22,7 +22,7 @@ public:
      @return ссылку на верктор слоёв
      */
     std::vector<layer>& accessToLayers();
-    std::vector<double>& accessToOutVector() {return outVector;}
+    std::vector<double *> *accessToOutVector() {return outVector;}
     /**
      Доступ к вектору ошибок
 
@@ -63,7 +63,7 @@ private:
     std::vector<layer> layers;
     std::vector<double> errors;
     int nans = 0;
-    std::vector<double> outVector;
+    std::vector<double *> *outVector;
 };
 
 #endif /* network_hpp */

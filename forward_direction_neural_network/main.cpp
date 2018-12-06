@@ -15,6 +15,7 @@
 void convertingLabels(std::vector<u_char>& inLables, std::vector<std::vector<double>>& lables);
 void imageConversion(std::vector<std::vector<u_char>>& charImages, std::vector<std::vector<double>>& outImages);
 int theTransformationOfTheVectorOfOutputSignals(std::vector<double>& outputSignal);
+int theTransformationOfTheVectorOfOutputSignalsP(std::vector<double *>& outputSignal);
 
 int main(int argc, const char * argv[]) {
     parametrsStorage ps(argc, argv); // разбираем аргументы коммандной строки
@@ -40,7 +41,7 @@ int main(int argc, const char * argv[]) {
         int goot = 0;
         for (int i  = 0; i < trainData.size(); i++) {
             net.directPropagation(trainData[i]);
-            if (theTransformationOfTheVectorOfOutputSignals(net.accessToOutVector()) == theTransformationOfTheVectorOfOutputSignals(convertResponse[i])) {
+            if (theTransformationOfTheVectorOfOutputSignalsP(*net.accessToOutVector()) == theTransformationOfTheVectorOfOutputSignals(convertResponse[i])) {
                 goot++;
             }
         }
@@ -71,6 +72,7 @@ void imageConversion(std::vector<std::vector<u_char>>& charImages, std::vector<s
         for (int j = 0; j < outImages[i].size(); j++) {
             outImages[i][j] = charImages[i][j];
         }
+        outImages[i].push_back(1);
     }
 }
 
@@ -84,4 +86,16 @@ int theTransformationOfTheVectorOfOutputSignals(std::vector<double>& outputSigna
         }
         }
         return result;
+}
+
+int theTransformationOfTheVectorOfOutputSignalsP(std::vector<double *>& outputSignal) {
+    int result = 0;
+    double max = 0;
+    for (int i = 0; i < outputSignal.size(); i++) {
+        if (*outputSignal[i] > max) {
+            max = *outputSignal[i];
+            result = i;
+        }
+    }
+    return result;
 }
