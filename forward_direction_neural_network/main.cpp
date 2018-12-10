@@ -45,13 +45,28 @@ int main(int argc, const char * argv[]) {
                 goot++;
             }
         }
-        std::cout << "ошибка обучения " << double(goot) / trainData.size() << std::endl;
+        std::cout << "ошибка обучения " << double(1 - double(goot) / trainData.size()) << std::endl;
         std::cout << "Вываливаю сеть на диск.\n";
         net.exportNetwork(ps.getSavePath()); // выгружаем сеть
         std::cout << "Всё!\n";
     }
     if (ps.operatingMode() == 2) {
         network net(ps.getInputPath());
+        std::cout << "Читаю базу МНИСТ…\n";
+        auto ds = mnist::read_dataset();
+        mnist::binarize_dataset(ds);
+        std::cout << "прочитано " << ds.training_images.size() << " тренеровочных примеров, " << ds.training_labels.size() << " меток, " << ds.test_images.size() << " тестовых примеров и " << ds.test_labels.size() << " меток.\n";
+        std::vector<std::vector<double>> testSimples;
+        imageConversion(ds.test_images, testSimples);
+        std::cout << "после преобразования " << testSimples.size() << " тестовых примеров\n";
+        int good = 0;
+        for (int i = 0; i < testSimples.size(); i++) {
+            net.directPropagation(testSimples[i]);
+            if (theTransformationOfTheVectorOfOutputSignalsP(*net.accessToOutVector()) == static_cast<int>(ds.test_labels[i])) {
+                good++;
+            }
+        }
+        std::cout << "доля успешных предсказаний " << double(good) / testSimples.size() << std::endl << "Всё\n";
     }
     return 0;
 }

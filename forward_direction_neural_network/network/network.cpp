@@ -61,24 +61,28 @@ network::network(const std::string filePath) {
     string s; // строка для строки с параметрами
     getline(f, s); // выдёргиваем первую строку
     // внимание, дальше будет много кода на сях, простите за дремучее легаси.
-    char *cs = new char(s.size()); // сишная строка
+    char *cs = new char [static_cast<int>(s.length())]; // сишная строка
     strcpy(cs, s.data()); // копируем строку из нормальной в дремучую.
     char* stime = strtok(cs, " "); // создаём маленькую строку и загоняем в неё первую лексему
     int num = atoi(stime); // по идее это количество нейронов на первом скрытом слое, по этому перекидуем эту строчку в инт.
-    stime = strtok(cs, " "); // тащим следующую лексему
+    stime = strtok(NULL, " "); // тащим следующую лексему
     int size = atoi(stime); // забираем размер вектора весов
     layers.push_back(layer(num, size)); // создаём первый слой.
     while (stime != NULL) { // пока не налетим на null
         // повторяем процедуру
-        stime = strtok(cs, " ");
-        num = atoi(stime);
-        stime = strtok(cs, " ");
-        size = atoi(stime);
-        layers.push_back(layer(num, size));
+        stime = strtok(NULL, " ");
+        if (stime != NULL) {
+            num = atoi(stime);
+            stime = strtok(NULL, " ");
+            if (stime !=  NULL) {
+                size = atoi(stime);
+                layers.push_back(layer(num, size));
+            }
+        }
     }
     // освобождаем память, мы же гуманнай народ.
-    delete cs;
-    delete stime;
+    delete[] cs;
+    delete[] stime;
     // выдохнули, код на сях кончился, возвращаемся к крестам
     // заполняем матрицы весов
     for (int i = 0; i < layers.size(); i++) { // едем по слоям
@@ -89,6 +93,12 @@ network::network(const std::string filePath) {
         }
     }
     f.close(); // закрываем файл
+    // проверяем конфигурацию сети
+    std::cout << "Количества нейронов на слоях: ";
+    for (int i = 0; i < layers.size(); i++) {
+        std::cout << layers[i].accessToTheNeuronVector().size() << " ";
+    } std::cout << std::endl;
+    outVector = &layers[layers.size()-1].AccessToTheOutputVector();
 }
 
 void network::directPropagation(std::vector<double> &inputSignal) {
