@@ -58,13 +58,15 @@ int main(int argc, const char * argv[]) {
         std::cout << "прочитано " << ds.training_images.size() << " тренеровочных примеров, " << ds.training_labels.size() << " меток, " << ds.test_images.size() << " тестовых примеров и " << ds.test_labels.size() << " меток.\n";
         std::vector<std::vector<double>> testSimples;
         imageConversion(ds.test_images, testSimples);
-        std::cout << "после преобразования " << testSimples.size() << " тестовых примеров\n";
+        std::vector<std::vector<double>> testLables;
+        convertingLabels(ds.test_labels, testLables);
+        std::cout << "после преобразования " << testSimples.size() << " тестовых примеров " << testLables.size() << " тестовых меток\n";
         int good = 0;
         for (int i = 0; i < testSimples.size(); i++) {
             net.directPropagation(testSimples[i]);
-            if (theTransformationOfTheVectorOfOutputSignalsP(*net.accessToOutVector()) == static_cast<int>(ds.test_labels[i])) {
-                good++;
-            }
+            int a = theTransformationOfTheVectorOfOutputSignalsP(*net.accessToOutVector());
+            int b = theTransformationOfTheVectorOfOutputSignals(testLables[i]);
+            good = a == b? good+1: good;
         }
         std::cout << "доля успешных предсказаний " << double(good) / testSimples.size() << std::endl << "Всё\n";
     }
@@ -106,7 +108,7 @@ int theTransformationOfTheVectorOfOutputSignals(std::vector<double>& outputSigna
 int theTransformationOfTheVectorOfOutputSignalsP(std::vector<double *>& outputSignal) {
     int result = 0;
     double max = 0;
-    for (int i = 0; i < outputSignal.size(); i++) {
+    for (int i = 0; i < outputSignal.size()-1; i++) {
         if (*outputSignal[i] > max) {
             max = *outputSignal[i];
             result = i;

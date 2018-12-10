@@ -23,16 +23,16 @@ std::vector<double> &network::accessToErrors() {
 }
 
 network::network(std::vector<int> &sizes, const int num, const int af, const double ap, const double bp) { 
-    layers.push_back(layer(sizes[0]+1, num+1, af, ap, bp));
+    layers.push_back(layer(sizes[0], num+1, af, ap, bp));
     std::cout << "размеры слоёв ";
-    for (int i = 0; i < sizes.size(); i++) {
-        cout << sizes[i] << " ";
-    } cout << endl;
     for (int i = 1; i < sizes.size()-1; i++) {
-        layers.push_back(layer(sizes[i]+1, static_cast<int>(layers[i-1].accessToTheNeuronVector().size()), af, ap, bp));
+        layers.push_back(layer(sizes[i], static_cast<int>(layers[i-1].accessToTheNeuronVector().size())+1, af, ap, bp));
     }
-    layers.push_back(layer(sizes[sizes.size()-1], static_cast<int>(layers[sizes.size()-2].accessToTheNeuronVector().size()), af, ap, bp));
+    layers.push_back(layer(sizes[sizes.size()-1], static_cast<int>(layers[sizes.size()-2].accessToTheNeuronVector().size())+1, af, ap, bp));
     outVector = &layers[layers.size()-1].AccessToTheOutputVector();
+    for (int i = 0; i < layers.size(); i++) {
+        std::cout << layers[i].accessToTheNeuronVector().size() << " ";
+    } std::cout << std::endl;
 }
 
 void network::exportNetwork(const std::string folderPath) { 

@@ -92,6 +92,7 @@ private:
     std::vector<double *> errors; // вектор указателей на компоненты вектора ошибок.
     double error = 0; // Ошибка
     double ap = 0, bp = 0;
+    double one = 1;
 };
 
 #endif /* layer_hpp */

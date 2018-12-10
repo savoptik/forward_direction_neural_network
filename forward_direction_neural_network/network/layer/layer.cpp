@@ -99,6 +99,7 @@ void layer::toRebuildThePointers() {
         localGradients[i] = &neurons[i].getLocalGradient();
         errors[i] = &neurons[i].getE();
     }
+    outputValues.push_back(&one);
 }
 
 layer::layer(const int NumberOfNeurons, const int TheSizeOfTheVectorOfWeights) { 
