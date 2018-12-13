@@ -150,8 +150,8 @@ void network::train(std::vector<std::vector<double> > &TrainingSample, std::vect
         errors.clear();
         era++;
         if (era % 5 == 0) {
-            std::cout << "Ошибка " << currentError << " после " << era << "-ой эпохи\n";
-        }
+            std::cout << std::endl << "Ошибка " << currentError << " после " << era << "-ой эпохи\n";
+        } else std::cout << "==";
     }
     cout << "Обучение завершилось за " << era << " эпох\n";
 }
