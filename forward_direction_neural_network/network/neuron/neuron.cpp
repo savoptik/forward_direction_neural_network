@@ -8,7 +8,6 @@
 
 #include "neuron.hpp"
 #include <random>
-#include <ctime>
 #include <cmath>
 #include <algorithm>
 #include <iostream>
@@ -31,7 +30,6 @@ std::vector<double> &neuron::getVectorOfWeights() {
 }
 
 neuron::neuron(int size, const int acFunc, const double afa, const double afb) {
-//    std::random_device rd;
     std::default_random_engine dra(time(0));
 //    std::mt19937 gen(rd.entropy());
     std::uniform_real_distribution<> urd(-0.8, 0.8);

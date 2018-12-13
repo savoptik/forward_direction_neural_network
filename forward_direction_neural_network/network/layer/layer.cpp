@@ -9,6 +9,8 @@
 #include "layer.hpp"
 #include <iostream>
 #include <cmath>
+#include <algorithm>
+#include <random>
 using namespace std;
 
 double layer::getError() { 
@@ -32,6 +34,8 @@ std::vector<neuron> &layer::accessToTheNeuronVector() {
 }
 
 layer::layer(const int number, const int size, const int af, const double a, const double b) {
+    std::default_random_engine dra(time(0));
+    std::uniform_real_distribution<> urd(-0.8, 0.8);
     // создание нейронов
     for (int i = 0; i < number; i++) {
         neurons.push_back(neuron(size, af, a, b));
@@ -39,6 +43,7 @@ layer::layer(const int number, const int size, const int af, const double a, con
     toRebuildThePointers(); // пересбор указателей
     ap = a;
     bp = b;
+    one = urd(dra);
 }
 
 void layer::toCalculateTheOutputValuesForTheCurrentLayer(layer &previousLayer) {
@@ -102,12 +107,16 @@ void layer::toRebuildThePointers() {
     outputValues.push_back(&one);
 }
 
-layer::layer(const int NumberOfNeurons, const int TheSizeOfTheVectorOfWeights) { 
+layer::layer(const int NumberOfNeurons, const int TheSizeOfTheVectorOfWeights) {
+    std::default_random_engine dra(time(0));
+    //    std::mt19937 gen(rd.entropy());
+    std::uniform_real_distribution<> urd(-0.8, 0.8);
     neurons.resize(NumberOfNeurons);
     for (int i = 0; i < neurons.size(); i++) {
         neurons[i] = neuron(TheSizeOfTheVectorOfWeights);
     }
     toRebuildThePointers();
+    one = urd(dra);
 }
 
 void layer::calculateTheOutputValuesByTheVectorOfTheInputSignals(std::vector<double> &inputSignals) { 

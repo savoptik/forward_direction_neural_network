@@ -48,7 +48,19 @@ int main(int argc, const char * argv[]) {
         std::cout << "ошибка обучения " << double(1 - double(goot) / trainData.size()) << std::endl;
         std::cout << "Вываливаю сеть на диск.\n";
         net.exportNetwork(ps.getSavePath()); // выгружаем сеть
-        std::cout << "Всё!\n";
+        std::vector<std::vector<double>> testSimples;
+        imageConversion(ds.test_images, testSimples);
+        std::vector<std::vector<double>> testLables;
+        convertingLabels(ds.test_labels, testLables);
+        std::cout << "после преобразования " << testSimples.size() << " тестовых примеров " << testLables.size() << " тестовых меток\n";
+        int good = 0;
+        for (int i = 0; i < testSimples.size(); i++) {
+            net.directPropagation(testSimples[i]);
+            int a = theTransformationOfTheVectorOfOutputSignalsP(*net.accessToOutVector());
+            int b = theTransformationOfTheVectorOfOutputSignals(testLables[i]);
+            good = a == b? good+1: good;
+        }
+        std::cout << "доля успешных предсказаний " << double(good) / testSimples.size() << std::endl << "Всё\n";
     }
     if (ps.operatingMode() == 2) {
         network net(ps.getInputPath());

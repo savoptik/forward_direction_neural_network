@@ -88,7 +88,10 @@ network::network(const std::string filePath) {
     for (int i = 0; i < layers.size(); i++) { // едем по слоям
         for (int j = 0; j < layers[i].accessToTheNeuronVector().size(); j++) { // едем по нейронам
             for (int k = 0; k < layers[i].accessToTheNeuronVector()[j].getVectorOfWeights().size(); k++) { // едем по вектору весов
-                f >> layers[i].accessToTheNeuronVector()[j].getVectorOfWeights()[k]; // тащим значение типа double
+                std::string s;
+                f >> s;
+                double d = stod(s);
+                layers[i].accessToTheNeuronVector()[j].getVectorOfWeights()[k] = d; // тащим значение типа double
             }
         }
     }
@@ -146,7 +149,9 @@ void network::train(std::vector<std::vector<double> > &TrainingSample, std::vect
         currentError = currentError / errors.size();
         errors.clear();
         era++;
-        std::cout << "Ошибка " << currentError << " после " << era << "-ой эпохи\n";
+        if (era % 5 == 0) {
+            std::cout << "Ошибка " << currentError << " после " << era << "-ой эпохи\n";
+        }
     }
     cout << "Обучение завершилось за " << era << " эпох\n";
 }
